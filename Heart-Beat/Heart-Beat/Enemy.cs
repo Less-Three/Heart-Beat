@@ -17,6 +17,7 @@ namespace Heart_Beat
     /// </summary>
     public class Enemy : SceneObject
     {
+        protected SceneObject target; //a reference, probably, to the player - could also move towards items
         public Enemy(Game game)
             : base(game)
         {
