@@ -24,7 +24,8 @@ namespace Heart_Beat
         protected Rectangle collisionRectangle; // X and Y collision
         protected double collisionDepth; // Z collision
         protected Vector2 translatedLocation; // Location converted to X-Z axis.
-
+        protected float ySpeed;
+        protected const float Y_SPEED_MAX = 15.0f;
         private const float MAX_BOUNDARY = 440.0f;
         private const float MIN_BOUNDARY = 200.0f;
 
@@ -63,17 +64,22 @@ namespace Heart_Beat
         public override void Update(GameTime gameTime)
         {
             z = MathHelper.Clamp(z, MIN_BOUNDARY, MAX_BOUNDARY);    // Ensure Z is within player moveable boundaries
-            translatedLocation = new Vector2((location.X) - (0.5f * z), 600 - z);
+            translatedLocation = new Vector2((location.X) - (0.5f * z), 600 - z - location.Y);
 
             base.Update(gameTime);
         }
 
-        public Rectangle getRectangle()
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+
+        }
+
+        public Rectangle GetRectangle()
         {
             return collisionRectangle;
         }
 
-        public int getHitPoints()
+        public int GetHitPoints()
         {
             return hitPoints;
         }
@@ -87,9 +93,19 @@ namespace Heart_Beat
             }
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public void UpdateGravity(GameTime gameTime)
         {
-
+            System.Console.WriteLine("location = " + location.Y);
+            if (location.Y > 0)
+            {
+                ySpeed -= 1.0f;
+                location.Y += ySpeed;
+            }
+            else
+            {
+                ySpeed = 0.0f;
+                location.Y = 0;
+            }
         }
     }
 }

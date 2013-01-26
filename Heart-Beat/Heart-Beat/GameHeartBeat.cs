@@ -103,7 +103,7 @@ namespace Heart_Beat
             foreach (SceneObject s in corpses)
             {
                 s.Update(gameTime);
-                if (s.getHitPoints() < 1)
+                if (s.GetHitPoints() < 1)
                 {
                     corpsesToRemove.Add(s);
                 }
@@ -118,38 +118,55 @@ namespace Heart_Beat
         }
 
         /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin();
+            scrollingBackground.Draw(spriteBatch);
+            player.Draw(spriteBatch);
+            spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        /// <summary>
         /// Searches for all possible collisions between relevant objects
         /// collisions which destroy a sceneobject put it in a corpse list
         /// which allows the object to complete its animation without affecting game loop
         /// </summary>
-        protected void checkCollisions(){
-            List <Enemy> enemiesToRemove = new List<Enemy>();
-            List <Projectile> enemyObjectsToRemove = new List<Projectile>();
-            List <Scenery> sceneryToRemove = new List<Scenery>();
-            List <SceneObject> itemsToRemove = new List<SceneObject>();
-            List <Projectile> playerObjectsToRemove = new List<Projectile>();
+        protected void CheckCollisions()
+        {
+            List<Enemy> enemiesToRemove = new List<Enemy>();
+            List<Projectile> enemyObjectsToRemove = new List<Projectile>();
+            List<Scenery> sceneryToRemove = new List<Scenery>();
+            List<SceneObject> itemsToRemove = new List<SceneObject>();
+            List<Projectile> playerObjectsToRemove = new List<Projectile>();
 
             // compares all enemy projectiles to scenery, player
             foreach (Projectile p in enemyObjects)
             {
-                if (p.getRectangle().Intersects(player.getRectangle()))
+                if (p.GetRectangle().Intersects(player.GetRectangle()))
                 {
                     player.takeDamage(p.getDamage());
                     p.takeDamage(100); // objects which hit player are removed
                 }
                 foreach (Scenery s in scenery)
                 {
-                    if (p.getRectangle().Intersects(s.getRectangle()))
+                    if (p.GetRectangle().Intersects(s.GetRectangle()))
                     {
                         s.takeDamage(1);
                         p.takeDamage(1);
-                        if (s.getHitPoints() < 1)
+                        if (s.GetHitPoints() < 1)
                         {
                             sceneryToRemove.Add(s);
                         }
                     }
                 }
-                if (p.getHitPoints() < 1) 
+                if (p.GetHitPoints() < 1)
                 {
                     enemyObjectsToRemove.Add(p);
                 }
@@ -160,12 +177,12 @@ namespace Heart_Beat
             {
                 foreach (Enemy e in enemies)
                 {
-                    if (p.getRectangle().Intersects(e.getRectangle()))
+                    if (p.GetRectangle().Intersects(e.GetRectangle()))
                     {
                         e.takeDamage(p.getDamage());
                         p.takeDamage(1); //objects which hit enemy "might" be removed
-                        
-                        if (e.getHitPoints() < 1)
+
+                        if (e.GetHitPoints() < 1)
                         {
                             enemiesToRemove.Add(e);
                         }
@@ -173,16 +190,16 @@ namespace Heart_Beat
                 }
                 foreach (Scenery s in scenery)
                 {
-                    if (p.getRectangle().Intersects(s.getRectangle()))
+                    if (p.GetRectangle().Intersects(s.GetRectangle()))
                     {
                         s.takeDamage(1);
-                        if (s.getHitPoints() < 1)
+                        if (s.GetHitPoints() < 1)
                         {
                             sceneryToRemove.Add(s);
                         }
                     }
                 }
-                if (p.getHitPoints() < 1) 
+                if (p.GetHitPoints() < 1)
                 {
                     playerObjectsToRemove.Add(p);
                 }
@@ -191,7 +208,7 @@ namespace Heart_Beat
             //compares all pickup items with player
             foreach (Item i in items)
             {
-                if (i.getRectangle().Intersects(player.getRectangle()))
+                if (i.GetRectangle().Intersects(player.GetRectangle()))
                 {
                     itemsToRemove.Add(i);
                 }
@@ -229,22 +246,6 @@ namespace Heart_Beat
                 playerObjects.Remove(p);
                 //not necessary to add projectile to death animation list
             }
-        }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch.Begin();
-            scrollingBackground.Draw(spriteBatch);
-            player.Draw(spriteBatch);
-            spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }

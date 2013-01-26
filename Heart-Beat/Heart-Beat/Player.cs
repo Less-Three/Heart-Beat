@@ -26,7 +26,7 @@ namespace Heart_Beat
             : base(game)
         {
             animation = new Animation(game);
-            location = new Vector2(400,300);
+            location = new Vector2(300,0);
             hitPoints = 100;
         }
 
@@ -81,13 +81,17 @@ namespace Heart_Beat
 
             if (keyState.IsKeyDown(Keys.Space))
             {
-                //TODO make player jump
+                if (location.Y <= 0.0f)
+                {
+                    location.Y = 1.0f;
+                    ySpeed = Y_SPEED_MAX;
+                    animation.select = "Jumping";
+                }
             }
 
-            //System.Console.Write (location.X + ", " + location.Y + ", " + z + ", " + translatedLocation + "\n");
-
-            base.Update(gameTime);
+            UpdateGravity(gameTime);
             animation.Update(gameTime, translatedLocation);
+            base.Update(gameTime);
         }
 
         /// <summary>

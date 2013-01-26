@@ -109,6 +109,9 @@ namespace Heart_Beat
             return max;
         }
 
+        /***************************************
+         * Adds an animation to the dictionary *
+         * *************************************/
         public void AddAnimation(string name, int row)
         {
             Rectangle[] recs = new Rectangle[frameCounts[row-1]];

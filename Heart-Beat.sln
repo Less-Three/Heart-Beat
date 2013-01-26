@@ -5,11 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heart-Beat", "Heart-Beat\He
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heart-BeatContent", "Heart-Beat\Heart-BeatContent\Heart-BeatContent.contentproj", "{CBDA5A6A-C9D6-4EF1-83DE-E79661A2F0BA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{401190D7-0475-4F76-9D4F-991D27A8AE94}"
-	ProjectSection(SolutionItems) = preProject
-		Heart-Beat\Heart-Beat\Animation.cs = Heart-Beat\Heart-Beat\Animation.cs
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
