@@ -18,7 +18,7 @@ namespace Heart_Beat
     abstract class Enemy : SceneObject
     {
         protected Player target; //a reference, probably, to the player - could also move towards items
-        protected static enum Types { BasicMelee=1, BasicRanged, AdvancedMelee, AdvancedRanged, Boss }; // a list of the different enemy types that could spawn?
+        protected enum Types { BasicMelee=1, BasicRanged, AdvancedMelee, AdvancedRanged, Boss }; // a list of the different enemy types that could spawn?
         protected int type;
         public Enemy(Game game)
             : base(game)
