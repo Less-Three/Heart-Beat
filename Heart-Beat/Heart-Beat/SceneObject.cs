@@ -24,7 +24,7 @@ namespace Heart_Beat
         protected Rectangle collisionRectangle; // X and Y collision
         protected double collisionDepth; // Z collision
         protected Vector2 translatedLocation; // Location converted to X-Z axis.
-
+        protected float ySpeed;
         private const float MAX_BOUNDARY = 440.0f;
         private const float MIN_BOUNDARY = 200.0f;
 
@@ -55,6 +55,21 @@ namespace Heart_Beat
 
             base.Initialize();
         }
+
+        public void UpdateGravity(GameTime gameTime)
+        {
+            System.Console.WriteLine("location = " + location.Y);
+            if (location.Y > 0)
+            {
+                ySpeed -= 1.0f;
+                location.Y += ySpeed;
+            }
+            else
+            {
+                ySpeed = 0;
+                location.Y = 0;
+            }
+        } 
 
         /// <summary>
         /// Allows the game component to update itself.
