@@ -83,6 +83,7 @@
     <Compile Include="SceneObject.cs" />
     <Compile Include="Scenery.cs" />
     <Compile Include="Stage.cs" />
+    <Compile Include="StageExit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
