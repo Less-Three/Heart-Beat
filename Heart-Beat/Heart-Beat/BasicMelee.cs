@@ -13,16 +13,16 @@ using Microsoft.Xna.Framework.Media;
 namespace Heart_Beat
 {
     /// <summary>
-    /// Abstract class to handle enemy behaviour.
+    /// This is a game component that implements IUpdateable.
     /// </summary>
-    abstract class Enemy : SceneObject
+    public class BasicMelee : Enemy
     {
-        protected Player target; //a reference, probably, to the player - could also move towards items
-        protected static enum Types { BasicMelee=1, BasicRanged, AdvancedMelee, AdvancedRanged, Boss }; // a list of the different enemy types that could spawn?
-        protected int type;
-        public Enemy(Game game)
+        private Animation walking, jumping, punching;
+        private SoundEffect footstep, punchWhoosh;
+        public BasicMelee(Game game)
             : base(game)
         {
+            hitPoints = 2;
             // TODO: Construct any child components here
         }
 
@@ -49,12 +49,7 @@ namespace Heart_Beat
         }
         public override void takeDamage(int damage)
         {
-            
-        }
-
-        public void makeMove()
-        {
-            // TODO - In/Decrement the x and y coordinates of the Enemy to approach player.
+            //base.takeDamage(damage);
         }
 
     }
