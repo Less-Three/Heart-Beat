@@ -18,6 +18,7 @@ namespace Heart_Beat
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Background scrollingBackground;
         Player player;  // the player
         List<SceneObject> gameObjects;  // list of all game objects - updated in game loops
 
@@ -31,7 +32,10 @@ namespace Heart_Beat
 
         public GameHeartBeat()
         {
+            Window.Title = "Heart Beat";
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
             Content.RootDirectory = "Content";
 
         }
@@ -44,7 +48,7 @@ namespace Heart_Beat
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            scrollingBackground = new Background(this);
             player = new Player(this);
             gameObjects = new List<SceneObject>();
             enemies = new List<Enemy>();
@@ -66,6 +70,7 @@ namespace Heart_Beat
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            scrollingBackground.Initialize(Content, "Background/city_bg", GraphicsDevice.Viewport.Width);
             // TODO: use this.Content to load your game content here
         }
 
@@ -86,10 +91,11 @@ namespace Heart_Beat
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            // TODO: Add your update logic here\
+            scrollingBackground.Update(gameTime);
             ProcessKeyboard();
             foreach (SceneObject s in gameObjects){
                 s.Update(gameTime);
@@ -258,7 +264,9 @@ namespace Heart_Beat
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            scrollingBackground.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
