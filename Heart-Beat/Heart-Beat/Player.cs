@@ -26,6 +26,7 @@ namespace Heart_Beat
         public Player(Game game)
             : base(game)
         {
+            hitPoints = 100;
             // TODO: Construct any child components here
         }
 
@@ -49,6 +50,11 @@ namespace Heart_Beat
             // TODO: Add your update code here
 
             base.Update(gameTime);
+        }
+
+        public void takeDamage(int damage)
+        {
+
         }
     }
 }

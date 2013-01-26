@@ -32,6 +32,7 @@ namespace Heart_Beat
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
         }
 
         /// <summary>
@@ -43,6 +44,13 @@ namespace Heart_Beat
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            player = new Player(this);
+            gameObjects = new List<SceneObject>();
+            enemies = new List<Enemy>();
+            enemyObjects = new List<Projectile>();
+            scenery = new List<Scenery>();
+            items = new List<SceneObject>();
+            playerObjects = new List<Projectile>();
 
             base.Initialize();
         }
@@ -94,7 +102,7 @@ namespace Heart_Beat
             {
                 if (p.getRectangle().Intersects(player.getRectangle()))
                 {
-
+                    player.takeDamage(5);
                 }
             }
         }
