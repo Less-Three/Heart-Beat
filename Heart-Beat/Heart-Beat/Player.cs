@@ -51,11 +51,11 @@ namespace Heart_Beat
 
             if ((keyState.IsKeyDown(Keys.Up))&&(location.Y > 160))
             {
-                location.Y -= 5.0f;
+                z += 5.0f;
             }
             if ((keyState.IsKeyDown(Keys.Down))&&(location.Y < 400))
             {
-                location.Y += 5.0f;
+                z -= 5.0f;
             }
             if (keyState.IsKeyDown(Keys.Left))
             {
@@ -81,7 +81,9 @@ namespace Heart_Beat
         /// <param name="spriteBatch">Group of sprites to be drawn with same settings.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-                spriteBatch.Draw(texture, location, Color.White);
+            Vector2 translatedLocation;
+            translatedLocation = new Vector2((location.X) - (0.5f * z), 600 -z);
+            spriteBatch.Draw(texture, translatedLocation, Color.White);
         }
     }
 }
