@@ -72,7 +72,7 @@ namespace Heart_Beat
             base.Update(gameTime);
         }
 
-        public override void UpdateGravity(GameTime gameTime)
+        public void UpdateGravity(GameTime gameTime)
         {
             if (location.Y > 0)
             {
