@@ -20,7 +20,6 @@ namespace Heart_Beat
         private KeyboardState keyState;
         private Texture2D texture;
         private SoundEffect footstep, punchWhoosh;
-
         private bool hasItem;
 
         public Player(Game game)
@@ -69,7 +68,9 @@ namespace Heart_Beat
             {
                 //TODO make player jump
             }
-            System.Console.Write (location.X + ", " + location.Y + "\n");
+
+            //System.Console.Write (location.X + ", " + location.Y + ", " + z + ", " + translatedLocation + "\n");
+            
             base.Update(gameTime);
 
             // 160 -> 400
@@ -81,8 +82,6 @@ namespace Heart_Beat
         /// <param name="spriteBatch">Group of sprites to be drawn with same settings.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 translatedLocation;
-            translatedLocation = new Vector2((location.X) - (0.5f * z), 600 -z);
             spriteBatch.Draw(texture, translatedLocation, Color.White);
         }
     }
