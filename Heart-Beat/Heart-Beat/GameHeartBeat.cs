@@ -18,6 +18,15 @@ namespace Heart_Beat
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Player player;  // the player
+        List<SceneObject> gameObjects;  // list of all game objects - updated in game loops
+
+        //the following lists are used only to simplify collision detection
+        List<Enemy> enemies;
+        List<Projectile> enemyObjects; // list of all enemy projectiles
+        List<Scenery> scenery; // list of all scenery objects
+        List<SceneObject> items; // list of all pick up items
+        List<Projectile> playerObjects; // list of all player projectiles including punches
 
         public GameHeartBeat()
         {
@@ -71,8 +80,23 @@ namespace Heart_Beat
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            foreach (SceneObject s in gameObjects){
+                s.Update(gameTime);
+            }
             base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Searches for all possible collisions between relevant objects
+        /// </summary>
+        protected void checkCollisions(){
+            foreach (Projectile p in enemyObjects)
+            {
+                if (p.getRectangle().Intersects(player.getRectangle()))
+                {
+
+                }
+            }
         }
 
         /// <summary>

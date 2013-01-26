@@ -51,5 +51,9 @@ namespace Heart_Beat
 
             base.Update(gameTime);
         }
+        public Rectangle getRectangle()
+        {
+            return collisionRectangle;
+        }
     }
 }
