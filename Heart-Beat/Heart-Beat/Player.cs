@@ -49,11 +49,11 @@ namespace Heart_Beat
         {
             keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.Up))
+            if ((keyState.IsKeyDown(Keys.Up))&&(location.Y > 160))
             {
                 location.Y -= 5.0f;
             }
-            if (keyState.IsKeyDown(Keys.Down))
+            if ((keyState.IsKeyDown(Keys.Down))&&(location.Y < 400))
             {
                 location.Y += 5.0f;
             }
@@ -69,8 +69,10 @@ namespace Heart_Beat
             {
                 //TODO make player jump
             }
-
+            System.Console.Write (location.X + ", " + location.Y + "\n");
             base.Update(gameTime);
+
+            // 160 -> 400
         }
 
         /// <summary>
