@@ -81,5 +81,9 @@ namespace Heart_Beat
                 hitPoints = 0;
             }
         }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+
+        }
     }
 }
