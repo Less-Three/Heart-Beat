@@ -17,6 +17,7 @@ namespace Heart_Beat
     /// </summary>
     public class Player : SceneObject
     {
+        private KeyboardState keyState;
         private Texture2D texture;
         private SoundEffect footstep, punchWhoosh;
 
@@ -25,6 +26,7 @@ namespace Heart_Beat
         public Player(Game game)
             : base(game)
         {
+            location = new Vector2(400,300);
             hitPoints = 100;
         }
 
@@ -45,7 +47,28 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            // TODO: Add your update code here
+            keyState = Keyboard.GetState();
+
+            if (keyState.IsKeyDown(Keys.Up))
+            {
+                location.Y -= 5.0f;
+            }
+            if (keyState.IsKeyDown(Keys.Down))
+            {
+                location.Y += 5.0f;
+            }
+            if (keyState.IsKeyDown(Keys.Left))
+            {
+                location.X -= 5.0f;
+            }
+            if (keyState.IsKeyDown(Keys.Right))
+            {
+                location.X += 5.0f;
+            }
+            if (keyState.IsKeyDown(Keys.Space))
+            {
+                //TODO make player jump
+            }
 
             base.Update(gameTime);
         }
@@ -56,7 +79,7 @@ namespace Heart_Beat
         /// <param name="spriteBatch">Group of sprites to be drawn with same settings.</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(800/2, 600/2), Color.White);
+                spriteBatch.Draw(texture, location, Color.White);
         }
     }
 }
