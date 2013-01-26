@@ -71,7 +71,7 @@ namespace Heart_Beat
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             scrollingBackground.Initialize(Content, "Background/city_bg", GraphicsDevice.Viewport.Width);
-            // TODO: use this.Content to load your game content here
+            player.Initialize(Content, "Player/Heartbeat_Stand01");
         }
 
         /// <summary>
@@ -94,9 +94,8 @@ namespace Heart_Beat
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here\
             scrollingBackground.Update(gameTime);
-            ProcessKeyboard();
+            player.Update(gameTime);
             foreach (SceneObject s in gameObjects){
                 s.Update(gameTime);
             }
@@ -116,30 +115,6 @@ namespace Heart_Beat
             corpsesToRemove.Clear();
             base.Update(gameTime);
             
-        }
-        public void ProcessKeyboard()
-        {
-            KeyboardState keyState = Keyboard.GetState();
-            if (keyState.IsKeyDown(Keys.Up))
-            {
-                //TODO make player move up
-            }
-            if (keyState.IsKeyDown(Keys.Down))
-            {
-                //TODO make player move down
-            }
-            if (keyState.IsKeyDown(Keys.Left))
-            {
-                //TODO make player move left
-            }
-            if (keyState.IsKeyDown(Keys.Right))
-            {
-                //TODO make player move right
-            }
-            if (keyState.IsKeyDown(Keys.Space))
-            {
-                //TODO make player jump
-            }
         }
 
         /// <summary>
@@ -266,6 +241,7 @@ namespace Heart_Beat
 
             spriteBatch.Begin();
             scrollingBackground.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
