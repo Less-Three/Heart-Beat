@@ -51,11 +51,5 @@ namespace Heart_Beat
         {
             
         }
-
-        public void makeMove()
-        {
-            // TODO - In/Decrement the x and y coordinates of the Enemy to approach player.
-        }
-
     }
 }
