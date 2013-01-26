@@ -1,8 +1,4 @@
-/* Animation.cs
- * 
- * Created by Johnathan Chu during the Vancouver Global Game Jam 2013
- * Last Modified: 2013-01-26
- */
+/* Source: http://coderplex.blogspot.ca/2010/04/2d-animation-part-5-multiple-animations.html */
 
 using System;
 using System.Collections.Generic;
@@ -23,34 +19,45 @@ namespace Heart_Beat
     /// </summary>
     public class Animation : Microsoft.Xna.Framework.GameComponent
     {
-        public enum AnimationID { IDLE, WALKING, JUMPING, PUNCHING, ATTACKING, DYING };
+        private Dictionary<string, Rectangle[]> animations;     // Animations used and their frames
+        public String select;                                   // Select animation
+        private Vector2 location;
+        private int[] frameCounts;
         private Texture2D spriteStrip;
-        private int frameCount;
-        private bool active;
-        private int timeToDisplayFrame;
+        private int timeDisplayFrame;                           // Time to display frame
+        private double elapsedTime;
         private int currentFrame;
         private int frameWidth, frameHeight;
-        private Rectangle SourceRect, DestinationRect;
+        private Rectangle destinationRect;
 
-        public Animation(Game game, string imagePath, int fCount, int timeToDisplay)
+        public Animation(Game game)
             : base(game)
         {
-            spriteStrip = game.Content.Load<Texture2D>(imagePath);
-            frameCount = fCount;
-            timeToDisplayFrame = timeToDisplay;
-            currentFrame = 0;
-            frameWidth = spriteStrip.Width/frameCount;
-            frameHeight = spriteStrip.Height;
+            animations = new Dictionary<string, Rectangle[]>();
         }
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        public override void Initialize()
+        public void Initialize(ContentManager Content, string imagePath, int[] fCountsPerAnim, int time)
         {
-            // TODO: Add your initialization code here
+            // Get number of different animations
+            int size = fCountsPerAnim.Length;
 
+            spriteStrip = Content.Load<Texture2D>(imagePath);
+            frameCounts = new int[size];
+            currentFrame = 0;
+            timeDisplayFrame = time;
+
+            // Get frame counts for each animation
+            for (int i = 0; i < frameCounts.Length; i++)
+                frameCounts[i] = fCountsPerAnim[i];
+            int maxFramesInAType = GetMaxFrames();
+
+            frameWidth = spriteStrip.Width / maxFramesInAType;
+            frameHeight = spriteStrip.Height / size;
+            
             base.Initialize();
         }
 
@@ -58,15 +65,62 @@ namespace Heart_Beat
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Vector2 loc)
         {
-            // TODO: Add your update code here
+            location = loc;
+            elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
 
+            if (elapsedTime > timeDisplayFrame)
+            {
+                   currentFrame++;
+                   if (currentFrame == frameCounts[0] - 1) currentFrame = 0;
+                   elapsedTime = 0.0;
+            }
+
+            // Get next frame
+            destinationRect = new Rectangle((int)location.X,
+                                            (int)location.Y,
+                                            frameWidth,
+                                            frameHeight);
             base.Update(gameTime);
         }
-        public void beginAnimation(int animationID)
-        {
 
+        /// <summary>
+        /// Draw player.
+        /// </summary>
+        /// <param name="spriteBatch">Group of sprites to be drawn with same settings.</param>
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(spriteStrip, destinationRect, animations[select][currentFrame], Color.White);
+        }
+
+        /*****************************************
+         * Return the maximum number of frames   *
+         * in of all the types in a sprite sheet *
+         * ***************************************/
+        private int GetMaxFrames()
+        {
+            int max = 0;
+
+            for (int i = 0; i < frameCounts.Length; i++ )
+            {
+                if (frameCounts[i] > max) max = frameCounts[i];
+            }
+            return max;
+        }
+
+        public void AddAnimation(string name, int row)
+        {
+            Rectangle[] recs = new Rectangle[frameCounts[row-1]];
+
+            for (int i = 0; i < frameCounts[row-1]; i++)
+            {
+                recs[i] = new Rectangle(i * frameWidth,
+                                        (row - 1) * frameHeight,
+                                        frameWidth,
+                                        frameHeight);
+            }
+            animations.Add(name, recs);
         }
     }
 }
