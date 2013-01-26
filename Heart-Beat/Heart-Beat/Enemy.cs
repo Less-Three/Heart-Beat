@@ -50,5 +50,9 @@ namespace Heart_Beat
         {
             
         }
+        public void setTarget(SceneObject t)
+        {
+            target = t;
+        }
     }
 }

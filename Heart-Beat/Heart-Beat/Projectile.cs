@@ -18,6 +18,7 @@ namespace Heart_Beat
     public class Projectile : SceneObject
     {
         protected Vector2 directionOfTravel;
+        protected int damage; // the damage this projectile will inflict on opponents
 
         public Projectile(Game game)
             : base(game)
@@ -50,6 +51,10 @@ namespace Heart_Beat
         public override void takeDamage(int damage)
         {
             
+        }
+        public int getDamage()
+        {
+            return damage;
         }
     }
 }

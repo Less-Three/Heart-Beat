@@ -102,7 +102,19 @@ namespace Heart_Beat
             {
                 if (p.getRectangle().Intersects(player.getRectangle()))
                 {
-                    player.takeDamage(5);
+                    player.takeDamage(p.getDamage());
+                    p.takeDamage(100); // objects which hit player are removed
+                }
+            }
+            foreach (Projectile p in playerObjects)
+            {
+                foreach (Enemy e in enemies)
+                {
+                    if (p.getRectangle().Intersects(e.getRectangle()))
+                    {
+                        e.takeDamage(p.getDamage());
+                        p.takeDamage(1); //objects which hit enemy "might" be removed
+                    }
                 }
             }
         }
