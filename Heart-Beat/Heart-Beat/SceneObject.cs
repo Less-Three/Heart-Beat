@@ -24,6 +24,8 @@ namespace Heart_Beat
         protected Rectangle collisionRectangle; // X and Y collision
         protected double collisionDepth; // Z collision
         protected Vector2 translatedLocation; // Location converted to X-Z axis.
+        protected bool gravityAffects;
+        protected float ySpeed;
 
         private const float MAX_BOUNDARY = 440.0f;
         private const float MIN_BOUNDARY = 200.0f;
@@ -34,7 +36,7 @@ namespace Heart_Beat
             // TODO: Construct any child components here
         }
 
-        public SceneObject(Game game, Vector2 location, float z, int hitPoints, Rectangle collisionRectangle, double collisionDepth, Animation animation) : this(game)
+        public SceneObject(Game game, Vector2 location, float z, int hitPoints, Rectangle collisionRectangle, double collisionDepth, Animation animation, bool gravityAffects) : this(game)
 
         {
             this.location = location;
@@ -43,6 +45,8 @@ namespace Heart_Beat
             this.collisionRectangle = collisionRectangle;
             this.collisionDepth = collisionDepth;
             this.animation = animation;
+            this.gravityAffects = gravityAffects;
+            ySpeed = 0;
         }
 
         /// <summary>
@@ -64,6 +68,20 @@ namespace Heart_Beat
         {
             z = MathHelper.Clamp(z, MIN_BOUNDARY, MAX_BOUNDARY);    // Ensure Z is within player moveable boundaries
             translatedLocation = new Vector2((location.X) - (0.5f * z), 600 - z);
+
+            base.Update(gameTime);
+        }
+
+        public override void UpdateGravity(GameTime gameTime)
+        {
+            if (location.Y > 0)
+            {
+                ySpeed -= 0.5f;
+                location.Y -= ySpeed;
+            }else{
+                ySpeed = 0;
+                location.Y = 0;
+            }
 
             base.Update(gameTime);
         }
