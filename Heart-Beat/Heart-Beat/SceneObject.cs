@@ -15,13 +15,14 @@ namespace Heart_Beat
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class SceneObject : Microsoft.Xna.Framework.GameComponent
+    public abstract class SceneObject : Microsoft.Xna.Framework.GameComponent
     {
-        private Vector3 location; // x = left right, y= near far, z = up down
-        //private List<Animation> animations;
-        private int hitpoints;
-        private Rectangle collisionRectangle; // x and z collision
-        private double collisionWidth; // y width of collision
+        protected Vector2 location;
+        protected float z;
+        //protected List<Animation> animations;
+        protected int hitPoints;
+        protected Rectangle collisionRectangle; // X and Y collision
+        protected double collisionDepth; // Z collision
 
         public SceneObject(Game game)
             : base(game)
