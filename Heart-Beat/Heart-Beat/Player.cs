@@ -13,10 +13,16 @@ using Microsoft.Xna.Framework.Media;
 namespace Heart_Beat
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// Abstract class to handle player behaviour.
     /// </summary>
     public class Player : SceneObject
     {
+        private Animation walking, jumping, punching;
+
+        private SoundEffect footstep, punchWhoosh;
+
+        private bool hasItem;
+
         public Player(Game game)
             : base(game)
         {

@@ -17,7 +17,8 @@ namespace Heart_Beat
     /// </summary>
     public class Projectile : SceneObject
     {
-        protected Vector2 directionOfTravel; 
+        protected Vector2 directionOfTravel;
+
         public Projectile(Game game)
             : base(game)
         {
