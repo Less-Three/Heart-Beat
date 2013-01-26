@@ -62,14 +62,17 @@ namespace Heart_Beat
 
             base.Update(gameTime);
         }
+
         public Rectangle getRectangle()
         {
             return collisionRectangle;
         }
+
         public int getHitPoints()
         {
             return hitPoints;
         }
+
         public void takeDamage(int damage)
         {
             hitPoints = hitPoints - damage;

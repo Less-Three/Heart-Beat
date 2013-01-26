@@ -29,9 +29,9 @@ namespace Heart_Beat
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        public void Initialize(ContentManager content, String texturePath, int winWidth)
+        public void Initialize(ContentManager Content, String texturePath, int winWidth)
         {
-            texture = content.Load<Texture2D>(texturePath);
+            texture = Content.Load<Texture2D>(texturePath);
 
             // Divide screen by texture width to determine # of tiles required
             int numTiles = winWidth/texture.Width + 1;

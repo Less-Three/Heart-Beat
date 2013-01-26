@@ -17,7 +17,7 @@ namespace Heart_Beat
     /// </summary>
     public class Player : SceneObject
     {
-
+        private Texture2D texture;
         private SoundEffect footstep, punchWhoosh;
 
         private bool hasItem;
@@ -26,16 +26,15 @@ namespace Heart_Beat
             : base(game)
         {
             hitPoints = 100;
-            // TODO: Construct any child components here
         }
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        public override void Initialize()
+        public void Initialize(ContentManager Content, string texturePath)
         {
-            // TODO: Add your initialization code here
+            texture = Content.Load<Texture2D>(texturePath);
 
             base.Initialize();
         }
@@ -49,6 +48,15 @@ namespace Heart_Beat
             // TODO: Add your update code here
 
             base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Draw player.
+        /// </summary>
+        /// <param name="spriteBatch">Group of sprites to be drawn with same settings.</param>
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, new Vector2(800/2, 600/2), Color.White);
         }
     }
 }

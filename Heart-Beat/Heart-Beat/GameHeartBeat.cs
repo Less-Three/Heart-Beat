@@ -71,7 +71,7 @@ namespace Heart_Beat
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             scrollingBackground.Initialize(Content, "Background/city_bg", GraphicsDevice.Viewport.Width);
-            // TODO: use this.Content to load your game content here
+            player.Initialize(Content, "Player/Heartbeat_Stand01");
         }
 
         /// <summary>
@@ -96,6 +96,7 @@ namespace Heart_Beat
 
             // TODO: Add your update logic here\
             scrollingBackground.Update(gameTime);
+            player.Update(gameTime);
             ProcessKeyboard();
             foreach (SceneObject s in gameObjects){
                 s.Update(gameTime);
@@ -266,6 +267,7 @@ namespace Heart_Beat
 
             spriteBatch.Begin();
             scrollingBackground.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
