@@ -90,6 +90,7 @@ namespace Heart_Beat
                 this.Exit();
 
             // TODO: Add your update logic here
+            ProcessKeyboard();
             foreach (SceneObject s in gameObjects){
                 s.Update(gameTime);
             }
@@ -109,6 +110,26 @@ namespace Heart_Beat
             corpsesToRemove.Clear();
             base.Update(gameTime);
             
+        }
+        public void ProcessKeyboard()
+        {
+            KeyboardState keyState = Keyboard.GetState();
+            if (keyState.IsKeyDown(Keys.Up))
+            {
+                //TODO make player jump
+            }
+            if (keyState.IsKeyDown(Keys.Down))
+            {
+                //TODO make player duck?  or what?
+            }
+            if (keyState.IsKeyDown(Keys.Left))
+            {
+                //TODO make player move left
+            }
+            if (keyState.IsKeyDown(Keys.Right))
+            {
+                //TODO make player move right
+            }
         }
 
         /// <summary>
