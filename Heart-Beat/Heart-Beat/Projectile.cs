@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
 namespace Heart_Beat
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// Class to handle behaviour of projectiles.
     /// </summary>
     public class Projectile : SceneObject
     {
