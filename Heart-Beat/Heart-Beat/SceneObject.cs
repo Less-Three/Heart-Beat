@@ -86,6 +86,7 @@ namespace Heart_Beat
                 hitPoints = 0;
             }
         }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
 

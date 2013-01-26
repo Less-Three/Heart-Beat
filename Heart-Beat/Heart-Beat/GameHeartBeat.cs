@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Heart_Beat
 {
+    public enum AnimationID { IDLE, WALKING, PUNCHING, JUMPING, DYING };
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
