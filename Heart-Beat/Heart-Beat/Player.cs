@@ -17,7 +17,6 @@ namespace Heart_Beat
     /// </summary>
     public class Player : SceneObject
     {
-        private Animation walking, jumping, punching;
 
         private SoundEffect footstep, punchWhoosh;
 
@@ -50,11 +49,6 @@ namespace Heart_Beat
             // TODO: Add your update code here
 
             base.Update(gameTime);
-        }
-
-        public override void takeDamage(int damage)
-        {
-
         }
     }
 }

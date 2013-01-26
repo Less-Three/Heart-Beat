@@ -23,6 +23,7 @@ namespace Heart_Beat
     /// </summary>
     public class Animation : Microsoft.Xna.Framework.GameComponent
     {
+        public enum AnimationID { IDLE, WALKING, JUMPING, PUNCHING, ATTACKING, DYING };
         private Texture2D spriteStrip;
         private int frameCount;
         private bool active;
@@ -62,6 +63,10 @@ namespace Heart_Beat
             // TODO: Add your update code here
 
             base.Update(gameTime);
+        }
+        public void beginAnimation(int animationID)
+        {
+
         }
     }
 }

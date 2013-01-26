@@ -19,6 +19,7 @@ namespace Heart_Beat
     /// </summary>
     public class StageExit : SceneObject
     {
+        Stage stage;
         public StageExit(Game game)
             : base(game)
         {

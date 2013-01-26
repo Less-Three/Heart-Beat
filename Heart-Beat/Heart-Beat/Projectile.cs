@@ -48,10 +48,6 @@ namespace Heart_Beat
             base.Update(gameTime);
             location += directionOfTravel;
         }
-        public override void takeDamage(int damage)
-        {
-            
-        }
         public int getDamage()
         {
             return damage;

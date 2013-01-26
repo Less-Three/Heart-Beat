@@ -19,7 +19,7 @@ namespace Heart_Beat
     {
         protected Vector2 location;
         protected float z;
-        //protected List<Animation> animations;
+        protected Animation animation;
         protected int hitPoints;
         protected Rectangle collisionRectangle; // X and Y collision
         protected double collisionDepth; // Z collision
@@ -28,6 +28,17 @@ namespace Heart_Beat
             : base(game)
         {
             // TODO: Construct any child components here
+        }
+
+        public SceneObject(Game game, Vector2 location, float z, int hitPoints, Rectangle collisionRectangle, double collisionDepth, Animation animation) : this(game)
+
+        {
+            this.location = location;
+            this.z = z;
+            this.hitPoints = hitPoints;
+            this.collisionRectangle = collisionRectangle;
+            this.collisionDepth = collisionDepth;
+            this.animation = animation;
         }
 
         /// <summary>
@@ -59,7 +70,13 @@ namespace Heart_Beat
         {
             return hitPoints;
         }
-        public abstract void takeDamage(int damage);
-
+        public void takeDamage(int damage)
+        {
+            hitPoints = hitPoints - damage;
+            if (hitPoints < 0)
+            {
+                hitPoints = 0;
+            }
+        }
     }
 }
