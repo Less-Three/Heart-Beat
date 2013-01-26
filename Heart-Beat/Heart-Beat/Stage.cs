@@ -13,18 +13,17 @@ using Microsoft.Xna.Framework.Media;
 namespace Heart_Beat
 {
     /// <summary>
-    /// Class to handle behaviour of scene objects.
+    /// This is a game component that implements IUpdateable.
+    /// This component represents a portion of the level
+    /// 
     /// </summary>
-    public abstract class SceneObject : Microsoft.Xna.Framework.GameComponent
+    public class Stage : Microsoft.Xna.Framework.GameComponent
     {
-        protected Vector2 location;
-        protected float z;
-        //protected List<Animation> animations;
-        protected int hitPoints;
-        protected Rectangle collisionRectangle; // X and Y collision
-        protected double collisionDepth; // Z collision
+        public Stage nextMainStage;
+        public Stage nextAlternateStage;
 
-        public SceneObject(Game game)
+
+        public Stage(Game game)
             : base(game)
         {
             // TODO: Construct any child components here
@@ -51,12 +50,5 @@ namespace Heart_Beat
 
             base.Update(gameTime);
         }
-        public Rectangle getRectangle()
-        {
-            return collisionRectangle;
-        }
-        
-        public abstract void takeDamage(int damage);
-
     }
 }

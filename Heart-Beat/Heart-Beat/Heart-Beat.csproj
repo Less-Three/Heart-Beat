@@ -81,6 +81,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="SceneObject.cs" />
     <Compile Include="Scenery.cs" />
+    <Compile Include="Stage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

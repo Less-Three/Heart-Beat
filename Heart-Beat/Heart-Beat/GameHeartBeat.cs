@@ -98,12 +98,34 @@ namespace Heart_Beat
         /// Searches for all possible collisions between relevant objects
         /// </summary>
         protected void checkCollisions(){
+            List <SceneObject> gameObjectsToRemove = new List<SceneObject>();
+            List <Enemy> enemiesToRemove = new List<Enemy>();
+            List <Projectile> enemyObjectsToRemove = new List<Projectile>();
+            List <Scenery> sceneryToRemove = new List<Scenery>();
+            List <SceneObject> itemsToRemove = new List<SceneObject>();
+            List <Projectile> playerObjectsToRemove = new List<Projectile>();
             foreach (Projectile p in enemyObjects)
             {
                 if (p.getRectangle().Intersects(player.getRectangle()))
                 {
                     player.takeDamage(p.getDamage());
                     p.takeDamage(100); // objects which hit player are removed
+                }
+                foreach (Scenery s in scenery)
+                {
+                    if (p.getRectangle().Intersects(s.getRectangle()))
+                    {
+                        s.takeDamage(1);
+                        p.takeDamage(1);
+                        if (false) //TODO replace with s.getHitPoints() < 1
+                        {
+                            sceneryToRemove.Add(s);
+                        }
+                    }
+                }
+                if (false) //TODO replace with p.getHitPoints() < 1
+                {
+                    enemyObjectsToRemove.Add(p);
                 }
             }
             foreach (Projectile p in playerObjects)
@@ -114,7 +136,27 @@ namespace Heart_Beat
                     {
                         e.takeDamage(p.getDamage());
                         p.takeDamage(1); //objects which hit enemy "might" be removed
+                        
+                        if (false) // TODO replace with e.getHitPoints() < 1
+                        {
+                            enemiesToRemove.Add(e);
+                        }
                     }
+                }
+                foreach (Scenery s in scenery)
+                {
+                    if (p.getRectangle().Intersects(s.getRectangle()))
+                    {
+                        s.takeDamage(1);
+                        if (false) //TODO replace with s.getHitPoints() < 1
+                        {
+                            sceneryToRemove.Add(s);
+                        }
+                    }
+                }
+                if (false) //TODO replace with p.getHitPoints() < 1
+                {
+                    playerObjectsToRemove.Add(p);
                 }
             }
         }
