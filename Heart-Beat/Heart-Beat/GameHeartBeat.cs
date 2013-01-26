@@ -116,11 +116,11 @@ namespace Heart_Beat
             KeyboardState keyState = Keyboard.GetState();
             if (keyState.IsKeyDown(Keys.Up))
             {
-                //TODO make player jump
+                //TODO make player move up
             }
             if (keyState.IsKeyDown(Keys.Down))
             {
-                //TODO make player duck?  or what?
+                //TODO make player move down
             }
             if (keyState.IsKeyDown(Keys.Left))
             {
@@ -129,6 +129,10 @@ namespace Heart_Beat
             if (keyState.IsKeyDown(Keys.Right))
             {
                 //TODO make player move right
+            }
+            if (keyState.IsKeyDown(Keys.Space))
+            {
+                //TODO make player jump
             }
         }
 
