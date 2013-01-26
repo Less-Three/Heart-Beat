@@ -52,7 +52,7 @@ namespace Heart_Beat
             base.Update(gameTime);
         }
 
-        public void takeDamage(int damage)
+        public override void takeDamage(int damage)
         {
 
         }

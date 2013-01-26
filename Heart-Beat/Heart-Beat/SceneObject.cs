@@ -55,5 +55,6 @@ namespace Heart_Beat
         {
             return collisionRectangle;
         }
+        public abstract void takeDamage(int damage);
     }
 }
