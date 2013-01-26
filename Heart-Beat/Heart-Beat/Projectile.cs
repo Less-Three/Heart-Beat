@@ -17,6 +17,7 @@ namespace Heart_Beat
     /// </summary>
     public class Projectile : SceneObject
     {
+        protected Vector2 directionOfTravel; 
         public Projectile(Game game)
             : base(game)
         {
@@ -43,6 +44,7 @@ namespace Heart_Beat
             // TODO: Add your update code here
 
             base.Update(gameTime);
+            location += directionOfTravel;
         }
     }
 }
