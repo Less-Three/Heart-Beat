@@ -17,7 +17,6 @@ namespace Heart_Beat
     /// </summary>
     public class Player : SceneObject
     {
-        private AnimationID playerState;
         private KeyboardState keyState;
         private Texture2D texture;
         private SoundEffect footstep, punchWhoosh;
@@ -37,8 +36,13 @@ namespace Heart_Beat
         /// </summary>
         public void Initialize(ContentManager Content, string texturePath)
         {
-            int[] frameCounts = {3, 2, 2, 3, 3};
-            animation.Initialize(Content, "Player/Heartbeat_sprites", frameCounts, 350);
+            int[] frameCountsPerAnim = {3, 2, 2, 3, 3};
+            animation.Initialize(Content, "Player/Heartbeat_sprites", frameCountsPerAnim, 350);
+            animation.AddAnimation("Idle", 1);
+            animation.AddAnimation("Walking", 2);
+            animation.AddAnimation("Punching", 3);
+            animation.AddAnimation("Jumping", 4);
+            animation.AddAnimation("Dying", 5);
 
             base.Initialize();
         }
@@ -49,29 +53,30 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            playerState = AnimationID.IDLE;
+            animation.select = "Idle";
+
             keyState = Keyboard.GetState();
 
             if (keyState.IsKeyDown(Keys.Up))
             {
                 z += 5.0f;
-                playerState = AnimationID.WALKING;
+                animation.select = "Walking";
             }
             else if (keyState.IsKeyDown(Keys.Down))
             {
                 z -= 5.0f;
-                playerState = AnimationID.WALKING;
+                animation.select = "Walking";
             }
 
             if (keyState.IsKeyDown(Keys.Left))
             {
                 location.X -= 5.0f;
-                playerState = AnimationID.WALKING;
+                animation.select = "Walking";
             }
             else if (keyState.IsKeyDown(Keys.Right))
             {
                 location.X += 5.0f;
-                playerState = AnimationID.WALKING;
+                animation.select = "Walking";
             }
 
             if (keyState.IsKeyDown(Keys.Space))
@@ -82,14 +87,14 @@ namespace Heart_Beat
             //System.Console.Write (location.X + ", " + location.Y + ", " + z + ", " + translatedLocation + "\n");
 
             base.Update(gameTime);
-            animation.Update(gameTime, translatedLocation, playerState);
+            animation.Update(gameTime, translatedLocation);
         }
 
         /// <summary>
         /// Draw player.
         /// </summary>
         /// <param name="spriteBatch">Group of sprites to be drawn with same settings.</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             animation.Draw(spriteBatch);
         }
