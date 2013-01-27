@@ -15,14 +15,16 @@ namespace Heart_Beat
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
-    public class EnemyMelee : SceneObject
+    public class EnemyMelee : Enemy
     {
+        private const float SPEED = 5.0f;
         public EnemyMelee(Game game)
             : base(game)
         {
             animation = new Animation(game);
             location = new Vector2(300.0f, 0.0f);
             hitPoints = 100;
+            
         }
 
         /// <summary>
@@ -50,7 +52,12 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-
+            float diffX = location.X - target.getX();
+            float diffZ = Z - target.Z;
+            if (diffX > 0) { location.X -= (SPEED / 2); }
+            else if (diffX < 0) { location.X += (SPEED / 2); }
+            if (diffZ > 0) { Z -= (SPEED / 2); }
+            else if (diffZ < 0) { Z += (SPEED / 2); }
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
         }
