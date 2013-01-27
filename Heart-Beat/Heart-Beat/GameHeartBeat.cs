@@ -158,19 +158,43 @@ namespace Heart_Beat
                 }
             }
 
-            
-            foreach (Enemy e in enemies)
-            {
-                if (player.GetRectangle().Intersects(e.GetRectangle()) && Math.Abs(player.Z - e.Z) < SceneObject.defaultCollisionWidth)
-                {
-                    if (player.getAttack() == 1)
-                    {
-                        e.takeDamage(5);
-                    }
-                }
 
-                if (e.IsDead && e.getX() <= -50.0f) enemiesToRemove.Add(e);
+            if (player.getAttack() == 1)
+            {
+                Rectangle punchBox;
+                int xTranslate = 0;
+                if (player.getIsMovingRight())
+                {
+                    System.Diagnostics.Debug.WriteLine("turning right");
+                    xTranslate = 100;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("turning left");
+                    xTranslate = -100;
+                }
+                punchBox = new Rectangle((int)(player.getX() + xTranslate), (int)player.getY(), player.GetRectangle().Width, player.GetRectangle().Height);
+
+                foreach (Enemy e in enemies)
+                {
+                    if (player.GetRectangle().Intersects(e.GetRectangle()) && Math.Abs(player.Z - e.Z) < SceneObject.defaultCollisionWidth)
+                    {
+                        if (player.getAttack() == 1)
+                        {
+                            if((punchBox.Intersects(e.GetRectangle())))
+                            {
+                                e.takeDamage(25);
+                            }
+                            
+                        }
+                    }
+
+                    if (e.IsDead && e.getX() <= -50.0f) enemiesToRemove.Add(e);
+                }
+                
             }
+
+            
             
 
             //below loops clean up main object lists

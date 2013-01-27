@@ -18,7 +18,7 @@ namespace Heart_Beat
     /// </summary>
     public abstract class SceneObject : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        public bool isMovingRight;
+        private bool isMovingRight;
         private float xBefore;
         public const float defaultCollisionWidth = 6.5f;
         public enum Attack{none = 0, punch = 1, knife = 2};
@@ -84,7 +84,7 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            float xBefore = location.X;
+            xBefore = location.X;
             collisionRectangle = new Rectangle((int)location.X, (int)location.Y, (int)animation.FrameWidth, (int)animation.FrameHeight);
 
             z = MathHelper.Clamp(z, MIN_BOUNDARY, MAX_BOUNDARY);    // Ensure Z is within player moveable boundaries
@@ -141,7 +141,7 @@ namespace Heart_Beat
 
         public bool getIsMovingRight()
         {
-            return isMovingRight;
+            return (xBefore < location.X);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Heart_Beat
             
             int w = currentWeapon;
             
-            currentWeapon = 0;
+            //currentWeapon = 0;
             return w;
         }
         
