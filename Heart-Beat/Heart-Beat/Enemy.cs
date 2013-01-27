@@ -22,13 +22,18 @@ namespace Heart_Beat
         protected int type;
         protected int defaultWeapon;
         protected int coolDown = 5;
-        protected bool isDead;
+        private bool isDead;
         protected const float DEAD_SPEED = 1.0f;
 
         public Enemy(Game game)
             : base(game)
         {
             // No child components to construct
+        }
+
+        public bool IsDead
+        {
+            get { return isDead; }
         }
 
         /// <summary>

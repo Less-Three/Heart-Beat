@@ -20,7 +20,6 @@ namespace Heart_Beat
     {
         public bool isMovingRight;
         private float xBefore;
-        public bool attemptAnimation;
         public const float defaultCollisionWidth = 6.5f;
         public enum Attack{none = 0, punch = 1, knife = 2};
         protected SpriteBatch spriteBatch;
@@ -42,7 +41,6 @@ namespace Heart_Beat
         {
             xBefore = location.X;
             animation = new Animation(game);
-            attemptAnimation = false;
             collisionRectangle = new Rectangle((int)location.X, (int)location.Y, 100, 100);
         }
 
@@ -98,7 +96,6 @@ namespace Heart_Beat
 
         public Rectangle GetRectangle()
         {
-            
             return collisionRectangle;
         }
 

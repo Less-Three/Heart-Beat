@@ -37,9 +37,6 @@ namespace Heart_Beat
 
             Components.Add(new Background(this));
             player = new Player(this);
-            Components.Add(player);
-            
-            
         }
 
         /// <summary>
@@ -55,6 +52,7 @@ namespace Heart_Beat
             enemyObjects = new List<Projectile>();
             playerObjects = new List<Projectile>();
 
+            player.Initialize();
             for (int i = 0; i < 1; i++)
             {
                 Enemy enemy = new EnemyMelee(this);
@@ -115,6 +113,8 @@ namespace Heart_Beat
                 //s.Update(gameTime);
             }
 
+            player.Update(gameTime);
+
             base.Update(gameTime);
             
         }
@@ -130,6 +130,7 @@ namespace Heart_Beat
             base.Draw(gameTime);
             foreach (Enemy e in enemies)
                 e.Draw(gameTime);
+            player.Draw(gameTime);
         }
 
         /// <summary>
@@ -167,13 +168,15 @@ namespace Heart_Beat
                         e.takeDamage(5);
                     }
                 }
+
+                if (e.IsDead && e.getX() <= -50.0f) enemiesToRemove.Add(e);
             }
             
 
             //below loops clean up main object lists
             foreach (Enemy e in enemiesToRemove)
             {
-                gameObjects.Add(e);
+                e.Dispose();
                 enemies.Remove(e);
             }
 

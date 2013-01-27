@@ -44,7 +44,6 @@ namespace Heart_Beat
             animation.AddAnimation("Jumping", 4);
             animation.AddAnimation("Dying", 5);
 
-            attemptAnimation = true;
             base.Initialize();
         }
 

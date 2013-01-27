@@ -50,7 +50,7 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime, Player target)
         {
-            if (!isDead)
+            if (!IsDead)
             {
                 if (hitPoints <= 0)
                     animation.select = "Dying";
@@ -99,7 +99,7 @@ namespace Heart_Beat
                 }
             }
 
-            if (isDead) location.X -= DEAD_SPEED;
+            if (IsDead) location.X -= DEAD_SPEED;
 
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
