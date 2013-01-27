@@ -33,7 +33,7 @@ namespace Heart_Beat
         protected SceneObject(Game game)
             : base(game)
         {
-            // No child components to construct
+            animation = new Animation(game);
         }
 
         public float Z
@@ -76,6 +76,8 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            collisionRectangle = new Rectangle((int)translatedLocation.X, (int)translatedLocation.Y, (int)animation.FrameWidth, (int)animation.FrameHeight);
+
             z = MathHelper.Clamp(z, MIN_BOUNDARY, MAX_BOUNDARY);    // Ensure Z is within player moveable boundaries
             translatedLocation = new Vector2((location.X) - (0.5f * z), 600 - z - location.Y);
 
@@ -103,7 +105,7 @@ namespace Heart_Beat
 
         public void UpdateGravity(GameTime gameTime)
         {
-            System.Console.WriteLine("location = " + location.Y);
+            // System.Console.WriteLine("location = " + location.Y);
             if (location.Y > 0)
             {
                 ySpeed -= 1.0f;

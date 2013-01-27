@@ -25,7 +25,7 @@ namespace Heart_Beat
         public Player(Game game)
             : base(game)
         {
-            animation = new Animation(game);
+            
             location = new Vector2(300,0);
             hitPoints = 100;
         }
@@ -72,11 +72,13 @@ namespace Heart_Beat
             {
                 location.X -= SPEED;
                 animation.select = "Walking";
+                animation.isMirrored = true;
             }
             else if (keyState.IsKeyDown(Keys.Right))
             {
                 location.X += SPEED;
                 animation.select = "Walking";
+                animation.isMirrored = false;
             }
 
             if (keyState.IsKeyDown(Keys.Space))

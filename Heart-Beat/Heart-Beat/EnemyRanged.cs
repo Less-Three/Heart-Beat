@@ -21,7 +21,6 @@ namespace Heart_Beat
         public EnemyRanged(Game game)
             : base(game)
         {
-            animation = new Animation(game);
             location = new Vector2(300.0f, 0.0f);
             hitPoints = 100;
         }
@@ -33,10 +32,8 @@ namespace Heart_Beat
         public override void Initialize()
         {
             int[] frameCountsPerAnim = { 0, 2, 3, 0, 2 };
-            Random rand = new Random();
-            int thugType = rand.Next(1, 3);
-            if (thugType == 1) animation.Initialize("Enemies/Thug01_sprites", frameCountsPerAnim, 350);
-            else animation.Initialize("Enemies/Thug02_sprites", frameCountsPerAnim, 350);
+
+            animation.Initialize("Enemies/Thug02_sprites", frameCountsPerAnim, 350);
             animation.AddAnimation("Walking", 2);
             animation.AddAnimation("Punching", 3);
             animation.AddAnimation("Dying", 5);
@@ -57,6 +54,7 @@ namespace Heart_Beat
             else if (diffX < 0) { location.X -= (SPEED / 2); }
             if (diffZ > 0) { Z += (SPEED / 2); }
             else if (diffZ < 0) { Z -= (SPEED / 2); }
+
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
         }

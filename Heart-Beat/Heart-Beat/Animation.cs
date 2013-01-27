@@ -32,6 +32,7 @@ namespace Heart_Beat
         private int frameWidth;
         private int frameHeight;
         private Rectangle destinationRect;
+        public bool isMirrored;
 
         public Animation(Game game)
             : base(game)
@@ -45,12 +46,20 @@ namespace Heart_Beat
             set { frameWidth = value; }
         }
 
+        public int FrameHeight
+        {
+            get { return frameHeight; }
+            set { frameHeight = value; }
+        }
+
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
         public void Initialize(string imagePath, int[] fCountsPerAnim, int time)
         {
+            isMirrored = false;
+
             // Get number of different animations
             int size = fCountsPerAnim.Length;
 
@@ -65,7 +74,7 @@ namespace Heart_Beat
             int maxFramesInAType = GetMaxFrames();
 
             FrameWidth = spriteStrip.Width / maxFramesInAType;
-            frameHeight = spriteStrip.Height / size;
+            FrameHeight = spriteStrip.Height / size;
             
             base.Initialize();
         }
@@ -120,7 +129,7 @@ namespace Heart_Beat
             destinationRect = new Rectangle((int)location.X,
                                             (int)location.Y,
                                             FrameWidth,
-                                            frameHeight);
+                                            FrameHeight);
             if (currentFrame >= frameCounts[rowWithMaxFrames]) currentFrame = 0;
             base.Update(gameTime);
         }
@@ -132,7 +141,8 @@ namespace Heart_Beat
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(spriteStrip, destinationRect, animations[select][currentFrame], Color.White);
+            if (isMirrored) spriteBatch.Draw(spriteStrip, destinationRect, animations[select][currentFrame], Color.White, 0.0f, new Vector2(0.0f, 0.0f), SpriteEffects.FlipHorizontally, 1.0f);
+            else spriteBatch.Draw(spriteStrip, destinationRect, animations[select][currentFrame], Color.White);
             spriteBatch.End();
         }
 
@@ -165,9 +175,9 @@ namespace Heart_Beat
             for (int i = 0; i < frameCounts[row-1]; i++)
             {
                 recs[i] = new Rectangle(i * FrameWidth,
-                                        (row - 1) * frameHeight,
+                                        (row - 1) * FrameHeight,
                                         FrameWidth,
-                                        frameHeight);
+                                        FrameHeight);
             }
             animations.Add(name, recs);
         }

@@ -46,7 +46,7 @@ namespace Heart_Beat
             Components.Add(player);
 
             //for (int i = 0; i < 5; i++ )
-            enemy = new EnemyMelee(this);
+            //enemy = new EnemyMelee(this);
             enemyTwo = new EnemyRanged(this);
         }
 
@@ -66,8 +66,8 @@ namespace Heart_Beat
             playerObjects = new List<Projectile>();
             corpses = new List<SceneObject>();
 
-            enemy.Initialize();
-            enemies.Add(enemy);
+            enemyTwo.Initialize();
+            enemies.Add(enemyTwo);
 
             base.Initialize();
         }
@@ -103,6 +103,8 @@ namespace Heart_Beat
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
+
+            CheckCollisions();
 
             foreach (Enemy e in enemies)
             {
@@ -233,6 +235,7 @@ namespace Heart_Beat
                 enemies.Remove(e);
                 corpses.Add(e);
             }
+
             foreach (Projectile p in enemyObjectsToRemove)
             {
                 gameObjects.Remove(p);
@@ -240,23 +243,34 @@ namespace Heart_Beat
                 //probably not necessary to add projectile deaths to corpse list
                 //projectiles are not currently designed to have a death animation
             }
+
             foreach (Scenery s in sceneryToRemove)
             {
                 gameObjects.Remove(s);
                 scenery.Remove(s);
                 corpses.Add(s); // destroyed scenery could have death animation
             }
+
             foreach (Item i in itemsToRemove)
             {
                 gameObjects.Remove(i);
                 items.Remove(i);
                 corpses.Add(i); // item pickups could play a short animation before being removed
             }
+
             foreach (Projectile p in playerObjectsToRemove)
             {
                 gameObjects.Remove(p);
                 playerObjects.Remove(p);
                 //not necessary to add projectile to death animation list
+            }
+
+            foreach (Enemy e in enemies)
+            {
+                if (e.GetRectangle().Intersects(player.GetRectangle()))
+                {
+                    Console.WriteLine("HIT!");
+                }
             }
         }
     }
