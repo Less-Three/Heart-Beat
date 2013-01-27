@@ -23,6 +23,7 @@ namespace Heart_Beat
         {
             location = new Vector2(400.0f, 0.0f);
             hitPoints = 100;
+            defaultWeapon = 2;
         }
 
         /// <summary>
@@ -60,6 +61,13 @@ namespace Heart_Beat
 
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
+            coolDown --;
+            if (currentWeapon == 0 && coolDown < 0)
+            {
+                currentWeapon = defaultWeapon;
+                coolDown = 10;
+            }
+
         }
 
         /// <summary>

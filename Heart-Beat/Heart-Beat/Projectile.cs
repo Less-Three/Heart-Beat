@@ -25,12 +25,21 @@ namespace Heart_Beat
         {
             // TODO: Construct any child components here
         }
-        public void setLocation(Player p)
+        public void setLocation(SceneObject s, int speed)
         {
-            if (p.getIsMirrored())
+            this.location.X = s.getX();
+            this.location.Y = s.getY();
+            this.Z = s.Z;
+            if (s.getIsMirrored())
             {
-                // TODO code for adding projectile
+                this.directionOfTravel.X = -speed;
+                this.location.X -= 10;
+            }else{
+                this.directionOfTravel.X = speed;
+                this.location.X += 10;
             }
+            this.collisionRectangle = new Rectangle((int)this.location.X, (int)this.location.Y, 50, 50);
+            
         }
 
         /// <summary>

@@ -12,11 +12,13 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Heart_Beat
 {
+    
     /// <summary>
     /// This is a game component that implements IUpdateable.
     /// </summary>
     public abstract class SceneObject : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        public const float defaultCollisionWidth = 1.5f;
         public enum Attack{none = 0, punch = 1, knife = 2};
         protected SpriteBatch spriteBatch;
         protected Vector2 location;
@@ -30,12 +32,13 @@ namespace Heart_Beat
         protected const float Y_SPEED_MAX = 15.0f;
         private const float MAX_BOUNDARY = 440.0f;
         private const float MIN_BOUNDARY = 200.0f;
-        protected int currentWeapon = 0;
+        protected int currentWeapon;
 
         protected SceneObject(Game game)
             : base(game)
         {
             animation = new Animation(game);
+            collisionRectangle = new Rectangle((int)location.X, (int)location.Y, 100, 100);
         }
 
         public float Z
@@ -48,13 +51,13 @@ namespace Heart_Beat
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        protected void Initialize(Vector2 loc, float z, int hp, Rectangle rect, double depth, Animation anim)
+        protected void Initialize(Vector2 loc, float z, int hp, Rectangle rect, Animation anim)
         {
             location = loc;
             this.z = z;
             hitPoints = hp;
             collisionRectangle = rect;
-            collisionDepth = depth;
+            collisionDepth = defaultCollisionWidth;
             animation = anim;
 
             base.Initialize();
@@ -78,7 +81,7 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            collisionRectangle = new Rectangle((int)translatedLocation.X, (int)translatedLocation.Y, (int)animation.FrameWidth, (int)animation.FrameHeight);
+            collisionRectangle = new Rectangle((int)location.X, (int)location.Y, (int)animation.FrameWidth, (int)animation.FrameHeight);
 
             z = MathHelper.Clamp(z, MIN_BOUNDARY, MAX_BOUNDARY);    // Ensure Z is within player moveable boundaries
             translatedLocation = new Vector2((location.X) - (0.5f * z), 600 - z - location.Y);
@@ -96,12 +99,13 @@ namespace Heart_Beat
             return hitPoints;
         }
 
-        public void takeDamage(int damage)
+        public virtual void takeDamage(int damage)
         {
             hitPoints = hitPoints - damage;
             if (hitPoints < 0)
             {
                 hitPoints = 0;
+               
             }
         }
 
@@ -141,9 +145,12 @@ namespace Heart_Beat
         /// <returns></returns>
         public int getAttack()
         {
+            
             int w = currentWeapon;
+            
             currentWeapon = 0;
-            return currentWeapon;
+            return w;
         }
+        
     }
 }

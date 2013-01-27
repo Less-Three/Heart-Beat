@@ -94,6 +94,7 @@ namespace Heart_Beat
             if (keyState.IsKeyDown(Keys.LeftControl))
             {
                 animation.select = "Punching";
+                this.currentWeapon = 1;
             }
 
             UpdateGravity(gameTime);
@@ -113,6 +114,14 @@ namespace Heart_Beat
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+        public override void takeDamage(int damage)
+        {
+            base.takeDamage(damage);
+            if (damage < 1)
+            {
+                animation.select = "Dying";
+            }
         }
     }
 }

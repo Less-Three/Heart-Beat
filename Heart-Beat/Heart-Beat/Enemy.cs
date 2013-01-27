@@ -20,6 +20,8 @@ namespace Heart_Beat
         protected Player target; //a reference, probably, to the player - could also move towards items
         protected enum Types { BasicMelee=1, BasicRanged, AdvancedMelee, AdvancedRanged, Boss }; // a list of the different enemy types that could spawn?
         protected int type;
+        protected int defaultWeapon;
+        protected int coolDown = 5;
         public Enemy(Game game)
             : base(game)
         {
@@ -33,6 +35,15 @@ namespace Heart_Beat
         public virtual void Update(GameTime gameTime, Player target)
         {
             base.Update(gameTime);
+        }
+        public override void takeDamage(int damage)
+        {
+            base.takeDamage(damage);
+            if (hitPoints < 1)
+            {
+                animation.select = "Dying";
+            }
+        
         }
     }
 }

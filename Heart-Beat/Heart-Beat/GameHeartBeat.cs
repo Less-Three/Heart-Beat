@@ -41,13 +41,10 @@ namespace Heart_Beat
             Content.RootDirectory = "Content";
 
             Components.Add(new Background(this));
-
             player = new Player(this);
             Components.Add(player);
-
-            //for (int i = 0; i < 5; i++ )
-            //enemy = new EnemyMelee(this);
-            enemyTwo = new EnemyRanged(this);
+            
+            
         }
 
         /// <summary>
@@ -66,8 +63,18 @@ namespace Heart_Beat
             playerObjects = new List<Projectile>();
             corpses = new List<SceneObject>();
 
-            enemyTwo.Initialize();
-            enemies.Add(enemyTwo);
+            for (int i = 0; i < 2; i++)
+            {
+                enemy = new EnemyMelee(this);
+                enemy.Initialize();
+
+                enemyTwo = new EnemyRanged(this);
+                enemyTwo.Initialize();
+
+                enemies.Add(enemyTwo);
+                enemies.Add(enemy);
+            }
+            
 
             base.Initialize();
         }
@@ -92,6 +99,50 @@ namespace Heart_Beat
         {
             // TODO: Unload any non ContentManager content here
         }
+        protected void CheckShooting()
+        {
+            int w = player.getAttack();
+            System.Diagnostics.Debug.WriteLine(w);
+                if (w == 1)
+                {
+                    System.Diagnostics.Debug.WriteLine("w==1");
+                    Projectile p = new Projectile(this);
+                    p.setLocation(player, 0);
+                    gameObjects.Add(p);
+                    enemyObjects.Add(p);
+                    playerObjects.Add(p);
+                }
+                else if (w == 2)
+                {
+                    Projectile p = new Projectile(this);
+                    p.setLocation(player, 4);
+                    gameObjects.Add(p);
+                    gameObjects.Add(p);
+                    playerObjects.Add(p);
+                }
+            foreach (Enemy e in enemies)
+            {
+                w = e.getAttack();
+                if (w == 1)
+                {
+                    Projectile p = new Projectile(this);
+                    p.setLocation(e, 0);
+                    gameObjects.Add(p);
+                    enemyObjects.Add(p);
+                }
+                else if (w == 2)
+                {
+                    Projectile p = new Projectile(this);
+                    p.setLocation(e, 4);
+                    gameObjects.Add(p);
+                    gameObjects.Add(p);
+                }
+                if (e.GetRectangle().Intersects(player.GetRectangle()))
+                {
+                    //e.takeDamage(100);
+                }
+            }
+        }
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -100,20 +151,16 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
             CheckCollisions();
-
+            CheckShooting();
             foreach (Enemy e in enemies)
             {
                 e.Update(gameTime, player);
-                int weapon = e.getAttack();
-                if (weapon == 1)
-                {
-                    Projectile p = new Projectile(this);
-                }
             }
 
             foreach (SceneObject s in gameObjects){
@@ -123,7 +170,7 @@ namespace Heart_Beat
             List<SceneObject> corpsesToRemove = new List<SceneObject>();
             foreach (SceneObject s in corpses)
             {
-                //s.Update(gameTime);
+                s.Update(gameTime);
                 if (s.GetHitPoints() < 1)
                 {
                     corpsesToRemove.Add(s);
@@ -168,14 +215,14 @@ namespace Heart_Beat
             // compares all enemy projectiles to scenery, player
             foreach (Projectile p in enemyObjects)
             {
-                if (p.GetRectangle().Intersects(player.GetRectangle()))
+                if (p.GetRectangle().Intersects(player.GetRectangle()) && Math.Abs(p.Z - player.Z) < SceneObject.defaultCollisionWidth)
                 {
                     player.takeDamage(p.getDamage());
                     p.takeDamage(100); // objects which hit player are removed
                 }
                 foreach (Scenery s in scenery)
                 {
-                    if (p.GetRectangle().Intersects(s.GetRectangle()))
+                    if (p.GetRectangle().Intersects(s.GetRectangle()) && Math.Abs(p.Z - s.Z) < SceneObject.defaultCollisionWidth)
                     {
                         s.takeDamage(1);
                         p.takeDamage(1);
@@ -196,20 +243,21 @@ namespace Heart_Beat
             {
                 foreach (Enemy e in enemies)
                 {
-                    if (p.GetRectangle().Intersects(e.GetRectangle()))
+                    if (p.GetRectangle().Intersects(e.GetRectangle()) && Math.Abs(p.Z - e.Z) < SceneObject.defaultCollisionWidth)
                     {
-                        e.takeDamage(p.getDamage());
+                        e.takeDamage(1);
                         p.takeDamage(1); //objects which hit enemy "might" be removed
 
                         if (e.GetHitPoints() < 1)
                         {
                             enemiesToRemove.Add(e);
+                            corpses.Add(e);
                         }
                     }
                 }
                 foreach (Scenery s in scenery)
                 {
-                    if (p.GetRectangle().Intersects(s.GetRectangle()))
+                    if (p.GetRectangle().Intersects(s.GetRectangle()) && Math.Abs(p.Z - s.Z) < SceneObject.defaultCollisionWidth)
                     {
                         s.takeDamage(1);
                         if (s.GetHitPoints() < 1)
@@ -227,7 +275,7 @@ namespace Heart_Beat
             //compares all pickup items with player
             foreach (Item i in items)
             {
-                if (i.GetRectangle().Intersects(player.GetRectangle()))
+                if (i.GetRectangle().Intersects(player.GetRectangle()) && Math.Abs(i.Z - player.Z) < SceneObject.defaultCollisionWidth)
                 {
                     itemsToRemove.Add(i);
                 }
@@ -236,7 +284,7 @@ namespace Heart_Beat
             //below loops clean up main object lists
             foreach (Enemy e in enemiesToRemove)
             {
-                gameObjects.Remove(e);
+                gameObjects.Add(e);
                 enemies.Remove(e);
                 corpses.Add(e);
             }
@@ -269,14 +317,14 @@ namespace Heart_Beat
                 playerObjects.Remove(p);
                 //not necessary to add projectile to death animation list
             }
-
-            foreach (Enemy e in enemies)
+            foreach (SceneObject s in corpses)
             {
-                if (e.GetRectangle().Intersects(player.GetRectangle()))
+                if (s.GetHitPoints() < 1)
                 {
-                    e.takeDamage(100);
+
                 }
             }
+            
         }
     }
 }
