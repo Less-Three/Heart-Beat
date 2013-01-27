@@ -17,7 +17,8 @@ namespace Heart_Beat
     /// </summary>
     public class EnemyRanged : Enemy
     {
-        private const float SPEED = 5.0f;
+        private const float SPEED = 3.5f;
+        private bool isDesperate = false;
         public EnemyRanged(Game game)
             : base(game)
         {
@@ -54,11 +55,40 @@ namespace Heart_Beat
 
             float diffX = location.X - target.getX();
             float diffZ = Z - target.Z;
-            if (diffX > 0) { location.X += (SPEED / 2); animation.isMirrored = true; }
-            else if (diffX < 0) { location.X -= (SPEED / 2); animation.isMirrored = false; }
-            if (diffZ > 0) { Z += (SPEED / 2); }
-            else if (diffZ < 0) { Z -= (SPEED / 2); }
 
+            if (diffX > 0) 
+            {
+                if ((location.X >= 800.0f)||isDesperate)
+                {
+                    location.X -= (SPEED / 2);
+                    animation.isMirrored = false;
+                    isDesperate = true;
+                }
+                else
+                {
+                    location.X += (SPEED / 2);
+                    animation.isMirrored = true;
+                }
+            }
+            else if (diffX < 0) 
+            {
+                if ((location.X <= 200.0f)||isDesperate)
+                {
+                    location.X += (SPEED / 2);
+                    animation.isMirrored = true;
+                    isDesperate = true;
+                }
+                else
+                {
+                    location.X -= (SPEED / 2);
+                    animation.isMirrored = false;
+                }
+            }
+            if (diffZ > 0) 
+                Z += (SPEED / 2);
+            else if (diffZ < 0) 
+                Z -= (SPEED / 2);
+            
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
             coolDown --;

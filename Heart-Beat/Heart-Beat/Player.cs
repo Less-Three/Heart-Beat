@@ -99,6 +99,7 @@ namespace Heart_Beat
 
             UpdateGravity(gameTime);
             location.X = MathHelper.Clamp(location.X, 0.0f + animation.FrameWidth, Game.GraphicsDevice.Viewport.Width);
+            Console.WriteLine(location.X + "," + Z);
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
         }
