@@ -21,7 +21,7 @@ namespace Heart_Beat
         public EnemyRanged(Game game)
             : base(game)
         {
-            location = new Vector2(300.0f, 0.0f);
+            location = new Vector2(700.0f, 0.0f);
             hitPoints = 100;
         }
 
@@ -50,8 +50,8 @@ namespace Heart_Beat
         {
             float diffX = location.X - target.getX();
             float diffZ = Z - target.Z;
-            if (diffX > 0) { location.X += (SPEED / 2); }
-            else if (diffX < 0) { location.X -= (SPEED / 2); }
+            if (diffX > 0) { location.X += (SPEED / 2); animation.isMirrored = true; }
+            else if (diffX < 0) { location.X -= (SPEED / 2); animation.isMirrored = false; }
             if (diffZ > 0) { Z += (SPEED / 2); }
             else if (diffZ < 0) { Z -= (SPEED / 2); }
 

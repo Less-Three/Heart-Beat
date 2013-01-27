@@ -49,8 +49,8 @@ namespace Heart_Beat
         {
             float diffX = location.X - target.getX();
             float diffZ = Z - target.Z;
-            if (diffX > 0) { location.X -= (SPEED / 2); }
-            else if (diffX < 0) { location.X += (SPEED / 2); }
+            if (diffX > 0) { location.X -= (SPEED / 2); animation.isMirrored = false; }
+            else if (diffX < 0) { location.X += (SPEED / 2); animation.isMirrored = true; }
             if (diffZ > 0) { Z -= (SPEED / 2); }
             else if (diffZ < 0) { Z += (SPEED / 2); }
 
