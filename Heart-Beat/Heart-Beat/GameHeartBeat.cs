@@ -46,7 +46,7 @@ namespace Heart_Beat
             Components.Add(player);
 
             enemy = new EnemyMelee(this);
-            //Components.Add(enemy);
+            Components.Add(enemy);
         }
 
         /// <summary>

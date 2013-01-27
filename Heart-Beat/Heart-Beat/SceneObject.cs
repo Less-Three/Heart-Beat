@@ -17,7 +17,7 @@ namespace Heart_Beat
     /// </summary>
     public abstract class SceneObject : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        SpriteBatch spriteBatch;
+        protected SpriteBatch spriteBatch;
         protected Vector2 location;
         protected float z;
         protected Animation animation;
@@ -74,19 +74,6 @@ namespace Heart_Beat
             translatedLocation = new Vector2((location.X) - (0.5f * z), 600 - z - location.Y);
 
             base.Update(gameTime);
-        }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Draw(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-            animation.Draw(gameTime);
-            spriteBatch.End();
-
-            base.Draw(gameTime);
         }
 
         public Rectangle GetRectangle()

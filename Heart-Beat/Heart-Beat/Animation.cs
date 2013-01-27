@@ -22,20 +22,27 @@ namespace Heart_Beat
         private SpriteBatch spriteBatch;
         private Dictionary<string, Rectangle[]> animations;     // Animations used and their frames
         public String select;                                   // Select animation
-        public int activeRow;
+        public int rowWithMaxFrames;
         private Vector2 location;
         private int[] frameCounts;
         private Texture2D spriteStrip;
         private int timeDisplayFrame;                           // Time to display frame
         private double elapsedTime;
         private int currentFrame;
-        private int frameWidth, frameHeight;
+        private int frameWidth;
+        private int frameHeight;
         private Rectangle destinationRect;
 
         public Animation(Game game)
             : base(game)
         {
             animations = new Dictionary<string, Rectangle[]>();
+        }
+
+        public int FrameWidth
+        {
+            get { return frameWidth; }
+            set { frameWidth = value; }
         }
 
         /// <summary>
@@ -57,7 +64,7 @@ namespace Heart_Beat
                 frameCounts[i] = fCountsPerAnim[i];
             int maxFramesInAType = GetMaxFrames();
 
-            frameWidth = spriteStrip.Width / maxFramesInAType;
+            FrameWidth = spriteStrip.Width / maxFramesInAType;
             frameHeight = spriteStrip.Height / size;
             
             base.Initialize();
@@ -84,19 +91,19 @@ namespace Heart_Beat
             switch (select)
             {
                 case "Idle":
-                    activeRow = 0;
+                    rowWithMaxFrames = 0;
                     break;
                 case "Walking":
-                    activeRow = 1;
+                    rowWithMaxFrames = 1;
                     break;
                 case "Punching":
-                    activeRow = 2;
+                    rowWithMaxFrames = 2;
                     break;
                 case "Jumping":
-                    activeRow = 3;
+                    rowWithMaxFrames = 3;
                     break;
                 case "Dying":
-                    activeRow = 4;
+                    rowWithMaxFrames = 4;
                     break;
             }
 
@@ -106,16 +113,15 @@ namespace Heart_Beat
             if (elapsedTime > timeDisplayFrame)
             {
                    currentFrame++;
-
-                   if (currentFrame >= frameCounts[0] - 1) currentFrame = 0;
                    elapsedTime = 0.0;
             }
 
             // Get next frame
             destinationRect = new Rectangle((int)location.X,
                                             (int)location.Y,
-                                            frameWidth,
+                                            FrameWidth,
                                             frameHeight);
+            if (currentFrame >= frameCounts[rowWithMaxFrames]) currentFrame = 0;
             base.Update(gameTime);
         }
 
@@ -143,7 +149,7 @@ namespace Heart_Beat
                 if (frameCounts[i] > max)
                 {
                     max = frameCounts[i];
-                    activeRow = i;
+                    rowWithMaxFrames = i;
                 }
             }
             return max;
@@ -158,9 +164,9 @@ namespace Heart_Beat
 
             for (int i = 0; i < frameCounts[row-1]; i++)
             {
-                recs[i] = new Rectangle(i * frameWidth,
+                recs[i] = new Rectangle(i * FrameWidth,
                                         (row - 1) * frameHeight,
-                                        frameWidth,
+                                        FrameWidth,
                                         frameHeight);
             }
             animations.Add(name, recs);

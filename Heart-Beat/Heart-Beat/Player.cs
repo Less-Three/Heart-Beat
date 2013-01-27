@@ -17,10 +17,10 @@ namespace Heart_Beat
     /// </summary>
     public class Player : SceneObject
     {
-        private Texture2D texture;
         private KeyboardState keyState;
         private SoundEffect footstep, punchWhoosh;
         private bool hasItem;
+        private const float SPEED = 5.0f;
 
         public Player(Game game)
             : base(game)
@@ -36,7 +36,7 @@ namespace Heart_Beat
         /// </summary>
         public override void Initialize()
         {
-            int[] frameCountsPerAnim = {3, 2, 2, 3, 3};
+            int[] frameCountsPerAnim = {3, 2, 3, 3, 3};
             animation.Initialize("Player/Heartbeat_sprites", frameCountsPerAnim, 350);
             animation.AddAnimation("Idle", 1);
             animation.AddAnimation("Walking", 2);
@@ -59,23 +59,23 @@ namespace Heart_Beat
 
             if (keyState.IsKeyDown(Keys.Up))
             {
-                z += 5.0f;
+                z += SPEED;
                 animation.select = "Walking";
             }
             else if (keyState.IsKeyDown(Keys.Down))
             {
-                z -= 5.0f;
+                z -= SPEED;
                 animation.select = "Walking";
             }
 
             if (keyState.IsKeyDown(Keys.Left))
             {
-                location.X -= 5.0f;
+                location.X -= SPEED;
                 animation.select = "Walking";
             }
             else if (keyState.IsKeyDown(Keys.Right))
             {
-                location.X += 5.0f;
+                location.X += SPEED;
                 animation.select = "Walking";
             }
 
@@ -95,13 +95,22 @@ namespace Heart_Beat
             }
 
             UpdateGravity(gameTime);
+            location.X = MathHelper.Clamp(location.X, 0.0f + animation.FrameWidth, Game.GraphicsDevice.Viewport.Width);
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime)
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        public override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
             animation.Draw(gameTime);
+            spriteBatch.End();
+
+            base.Draw(gameTime);
         }
     }
 }

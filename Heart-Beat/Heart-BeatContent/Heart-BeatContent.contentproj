@@ -37,13 +37,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Player\Heartbeat_Stand01.png">
-      <Name>Heartbeat_Stand01</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Player\Heartbeat_sprites.png">
       <Name>Heartbeat_sprites</Name>
       <Importer>TextureImporter</Importer>
@@ -53,6 +46,13 @@
   <ItemGroup>
     <Compile Include="Enemies\Thug01_sprites.png">
       <Name>Thug01_sprites</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enemies\Thug02_sprites.png">
+      <Name>Thug02_sprites</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

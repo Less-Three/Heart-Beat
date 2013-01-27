@@ -37,6 +37,7 @@ namespace Heart_Beat
             animation.AddAnimation("Punching", 3);
             animation.AddAnimation("Dying", 5);
 
+            animation.select = "Walking";
             base.Initialize();
         }
 
@@ -46,10 +47,22 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            animation.select = "Punching";
 
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        public override void Draw(GameTime gameTime)
+        {
+            spriteBatch.Begin();
+            animation.Draw(gameTime);
+            spriteBatch.End();
+
+            base.Draw(gameTime);
         }
     }
 }
