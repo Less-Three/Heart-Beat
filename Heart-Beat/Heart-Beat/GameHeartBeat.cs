@@ -16,9 +16,9 @@ namespace Heart_Beat
     /// </summary>
     public class GameHeartBeat : Microsoft.Xna.Framework.Game
     {
+        private const int MAX_ENEMIES = 5;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Background scrollingBackground;
         Player player;  // the player
         EnemyMelee enemy;
 
@@ -45,8 +45,8 @@ namespace Heart_Beat
             player = new Player(this);
             Components.Add(player);
 
-            enemy = new EnemyMelee(this);
-            Components.Add(enemy);
+            //for (int i = 0; i < 5; i++ )
+                //enemy = new EnemyMelee(this);
         }
 
         /// <summary>
@@ -64,6 +64,9 @@ namespace Heart_Beat
             items = new List<Item>();
             playerObjects = new List<Projectile>();
             corpses = new List<SceneObject>();
+
+            enemy.Initialize();
+            enemies.Add(enemy);
 
             base.Initialize();
         }
@@ -100,6 +103,11 @@ namespace Heart_Beat
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
+            foreach (EnemyMelee e in enemies)
+            {
+                e.Update(gameTime, player);
+            }
+
             foreach (SceneObject s in gameObjects){
                 //s.Update(gameTime);
             }
@@ -132,6 +140,8 @@ namespace Heart_Beat
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             base.Draw(gameTime);
+            foreach (EnemyMelee e in enemies)
+                e.Draw(gameTime);
         }
 
         /// <summary>

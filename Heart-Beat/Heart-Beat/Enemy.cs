@@ -15,7 +15,7 @@ namespace Heart_Beat
     /// <summary>
     /// Abstract class to handle enemy behaviour.
     /// </summary>
-    abstract class Enemy : SceneObject
+    public abstract class Enemy : SceneObject
     {
         protected Player target; //a reference, probably, to the player - could also move towards items
         protected enum Types { BasicMelee=1, BasicRanged, AdvancedMelee, AdvancedRanged, Boss }; // a list of the different enemy types that could spawn?

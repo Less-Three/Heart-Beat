@@ -24,7 +24,6 @@ namespace Heart_Beat
             animation = new Animation(game);
             location = new Vector2(300.0f, 0.0f);
             hitPoints = 100;
-            
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace Heart_Beat
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Player target)
         {
             float diffX = location.X - target.getX();
             float diffZ = Z - target.Z;
