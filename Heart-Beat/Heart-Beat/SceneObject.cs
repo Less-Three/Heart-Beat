@@ -35,6 +35,7 @@ namespace Heart_Beat
         private const float MAX_BOUNDARY = 440.0f;
         private const float MIN_BOUNDARY = 200.0f;
         protected int currentWeapon;
+        protected bool isDead;
 
         protected SceneObject(Game game)
             : base(game)

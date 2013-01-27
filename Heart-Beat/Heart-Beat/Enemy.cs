@@ -22,7 +22,6 @@ namespace Heart_Beat
         protected int type;
         protected int defaultWeapon;
         protected int coolDown = 5;
-        private bool isDead;
         protected const float DEAD_SPEED = 1.0f;
 
         public Enemy(Game game)

@@ -25,6 +25,13 @@ namespace Heart_Beat
             hitPoints = 100;
             defaultWeapon = 1;
         }
+        public EnemyMelee(Game game, Vector2 v)
+            : base(game)
+        {
+            location = v;
+            hitPoints = 100;
+            defaultWeapon = 1;
+        }
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -58,13 +65,22 @@ namespace Heart_Beat
                 else if (diffZ < 0) { Z += (SPEED / 2); }
                 if ((Math.Sqrt(diffZ * diffZ) < 100) && (Math.Sqrt(diffX * diffX) < 100))
                 {
-                    animation.select = "Punching";
-                    currentWeapon = 1;
+                    if (coolDown == 0)
+                    {
+                        animation.select = "Punching";
+                        currentWeapon = 1;
+                        coolDown = 10;
+                    }
+                    else
+                    {
+                        coolDown--;
+                    }
+
                 }
                 else
                     animation.select = "Walking";
 
-                coolDown--;
+                //coolDown--;
                 if (currentWeapon == 0 && coolDown < 0)
                 {
                     currentWeapon = defaultWeapon;

@@ -53,53 +53,61 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            animation.select = "Idle";
-
-            keyState = Keyboard.GetState();
-
-            if (keyState.IsKeyDown(Keys.Up))
+            if (isDead)
             {
-                Z += SPEED;
-                animation.select = "Walking";
+                animation.select = "Dying";
             }
-            else if (keyState.IsKeyDown(Keys.Down))
+            else
             {
-                Z -= SPEED;
-                animation.select = "Walking";
-            }
+                animation.select = "Idle";
 
-            if (keyState.IsKeyDown(Keys.Left))
-            {
-                location.X -= SPEED;
-                animation.select = "Walking";
-                animation.isMirrored = true;
-            }
-            else if (keyState.IsKeyDown(Keys.Right))
-            {
-                location.X += SPEED;
-                animation.select = "Walking";
-                animation.isMirrored = false;
-            }
+                keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.Space))
-            {
-                if (location.Y <= 0.0f)
+                if (keyState.IsKeyDown(Keys.Up))
                 {
-                    location.Y = 1.0f;
-                    ySpeed = Y_SPEED_MAX;
-                    animation.select = "Jumping";
+                    Z += SPEED;
+                    animation.select = "Walking";
                 }
-            }
+                else if (keyState.IsKeyDown(Keys.Down))
+                {
+                    Z -= SPEED;
+                    animation.select = "Walking";
+                }
 
-            if (keyState.IsKeyDown(Keys.LeftControl))
-            {
-                animation.select = "Punching";
-                this.currentWeapon = 1;
-            }
+                if (keyState.IsKeyDown(Keys.Left))
+                {
+                    location.X -= SPEED;
+                    animation.select = "Walking";
+                    animation.isMirrored = true;
+                }
+                else if (keyState.IsKeyDown(Keys.Right))
+                {
+                    location.X += SPEED;
+                    animation.select = "Walking";
+                    animation.isMirrored = false;
+                }
 
-            UpdateGravity(gameTime);
-            location.X = MathHelper.Clamp(location.X, 0.0f + animation.FrameWidth, Game.GraphicsDevice.Viewport.Width);
-            Console.WriteLine(location.X + "," + Z);
+                if (keyState.IsKeyDown(Keys.Space))
+                {
+                    if (location.Y <= 0.0f)
+                    {
+                        location.Y = 1.0f;
+                        ySpeed = Y_SPEED_MAX;
+                        animation.select = "Jumping";
+                    }
+                }
+
+                if (keyState.IsKeyDown(Keys.LeftControl))
+                {
+                    animation.select = "Punching";
+                    this.currentWeapon = 1;
+                }
+
+                UpdateGravity(gameTime);
+                location.X = MathHelper.Clamp(location.X, 0.0f + animation.FrameWidth, Game.GraphicsDevice.Viewport.Width);
+                //Console.WriteLine(location.X + "," + Z);
+            }
+            
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
         }
@@ -119,8 +127,9 @@ namespace Heart_Beat
         public override void takeDamage(int damage)
         {
             base.takeDamage(damage);
-            if (damage < 1)
+            if (hitPoints < 1)
             {
+                isDead = true;
                 animation.select = "Dying";
             }
         }

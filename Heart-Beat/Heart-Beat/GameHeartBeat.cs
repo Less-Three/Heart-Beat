@@ -27,6 +27,8 @@ namespace Heart_Beat
         List<Projectile> enemyObjects; // list of all enemy projectiles
         List<Projectile> playerObjects; // list of all player projectiles including punches
 
+        Rectangle punchBox;
+
         public GameHeartBeat()
         {
             Window.Title = "Heart Beat";
@@ -55,7 +57,7 @@ namespace Heart_Beat
             player.Initialize();
             for (int i = 0; i < 1; i++)
             {
-                Enemy enemy = new EnemyMelee(this);
+                Enemy enemy = new EnemyMelee(this, new Vector2(750, 20));
                 enemy.Initialize();
 
                 Enemy enemyTwo = new EnemyRanged(this);
@@ -159,9 +161,9 @@ namespace Heart_Beat
             }
 
 
-            if (player.getAttack() == 1)
+            if (player.getAttack() == 1)    // Player is punching
             {
-                Rectangle punchBox;
+                
                 int xTranslate = 0;
                 if (player.getIsMovingRight())
                 {
@@ -194,8 +196,33 @@ namespace Heart_Beat
                 
             }
 
-            
-            
+            foreach (Enemy e in enemies)
+            {
+                if (e.getAttack() == 1)
+                {
+                    int xTranslate = 0;
+                    if (e.getIsMovingRight())
+                    {
+                        System.Diagnostics.Debug.WriteLine("turning right");
+                        xTranslate = 100;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("turning left");
+                        xTranslate = -100;
+                    }
+                    punchBox = new Rectangle((int)(e.getX() + xTranslate), (int)e.getY(), e.GetRectangle().Width, e.GetRectangle().Height);
+                    if (player.GetRectangle().Intersects(e.GetRectangle()) && Math.Abs(player.Z - e.Z) < SceneObject.defaultCollisionWidth)
+                    {
+                        if ((punchBox.Intersects(player.GetRectangle())))
+                        {
+                            player.takeDamage(25);
+                        }
+                    }
+                }
+                    
+
+            }
 
             //below loops clean up main object lists
             foreach (Enemy e in enemiesToRemove)
