@@ -98,6 +98,7 @@ namespace Heart_Beat
 
         public Rectangle GetRectangle()
         {
+            
             return collisionRectangle;
         }
 

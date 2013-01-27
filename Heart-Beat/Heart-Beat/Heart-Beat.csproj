@@ -77,16 +77,12 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyRanged.cs" />
     <Compile Include="GameHeartBeat.cs" />
-    <Compile Include="Item.cs" />
     <Compile Include="EnemyMelee.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SceneObject.cs" />
-    <Compile Include="Scenery.cs" />
-    <Compile Include="Stage.cs" />
-    <Compile Include="StageExit.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

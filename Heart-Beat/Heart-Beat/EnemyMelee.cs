@@ -64,6 +64,9 @@ namespace Heart_Beat
                     coolDown = 10;
                 }
             }
+
+            if (isDead) location.X -= DEAD_SPEED;
+
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
         }
