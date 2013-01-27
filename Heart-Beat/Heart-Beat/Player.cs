@@ -20,14 +20,15 @@ namespace Heart_Beat
         private KeyboardState keyState;
         private SoundEffect footstep, punchWhoosh;
         private bool hasItem;
+        //private bool doWhoosh;
+        private int timer = 0;
         private const float SPEED = 5.0f;
 
         public Player(Game game)
             : base(game)
         {
-            
             location = new Vector2(300,0);
-            hitPoints = 100;
+            hitPoints = 20000;
         }
 
         /// <summary>
@@ -36,6 +37,7 @@ namespace Heart_Beat
         /// </summary>
         public override void Initialize()
         {
+            
             int[] frameCountsPerAnim = {3, 2, 3, 3, 3};
             animation.Initialize("Player/Heartbeat_sprites", frameCountsPerAnim, 350);
             animation.AddAnimation("Idle", 1);
@@ -43,6 +45,8 @@ namespace Heart_Beat
             animation.AddAnimation("Punching", 3);
             animation.AddAnimation("Jumping", 4);
             animation.AddAnimation("Dying", 5);
+
+            punchWhoosh = Game.Content.Load<SoundEffect>("Audio/Whoosh_Quick_02");
 
             base.Initialize();
         }
@@ -100,9 +104,16 @@ namespace Heart_Beat
                 if (keyState.IsKeyDown(Keys.LeftControl))
                 {
                     animation.select = "Punching";
-                    this.currentWeapon = 1;
+                    if (timer == 0)
+                    {
+                        punchWhoosh.Play();
+                        timer = 50;
+                    }
+                    currentWeapon = 1;
+                    timer--;
                 }
-
+                else timer = 0;
+                
                 UpdateGravity(gameTime);
                 location.X = MathHelper.Clamp(location.X, 0.0f + animation.FrameWidth, Game.GraphicsDevice.Viewport.Width);
                 //Console.WriteLine(location.X + "," + Z);

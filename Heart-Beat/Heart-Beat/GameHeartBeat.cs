@@ -16,6 +16,8 @@ namespace Heart_Beat
     /// </summary>
     public class GameHeartBeat : Microsoft.Xna.Framework.Game
     {
+        private Song music;
+        private Random rand = new Random();
         private const int MAX_ENEMIES = 5;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -55,15 +57,11 @@ namespace Heart_Beat
             playerObjects = new List<Projectile>();
 
             player.Initialize();
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < MAX_ENEMIES; i++)
             {
-                Enemy enemy = new EnemyMelee(this, new Vector2(750, 20));
+                Enemy enemy = new EnemyMelee(this, new Vector2(750, 0));
                 enemy.Initialize();
 
-                Enemy enemyTwo = new EnemyRanged(this);
-                enemyTwo.Initialize();
-
-                enemies.Add(enemyTwo);
                 enemies.Add(enemy);
             }
             
@@ -77,6 +75,11 @@ namespace Heart_Beat
         /// </summary>
         protected override void LoadContent()
         {
+            music = Content.Load<Song>("Audio/HeartbeatFunkMastered");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.4f;
+            MediaPlayer.Play(music);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -103,6 +106,11 @@ namespace Heart_Beat
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
+
+            if (enemies.Count == 0)
+            {
+                Enemy enemy = new EnemyMelee(this, new Vector2());
+            }
 
             CheckCollisions();
 
@@ -203,12 +211,12 @@ namespace Heart_Beat
                     int xTranslate = 0;
                     if (e.getIsMovingRight())
                     {
-                        System.Diagnostics.Debug.WriteLine("turning right");
+                        // System.Diagnostics.Debug.WriteLine("turning right");
                         xTranslate = 100;
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine("turning left");
+                        // System.Diagnostics.Debug.WriteLine("turning left");
                         xTranslate = -100;
                     }
                     punchBox = new Rectangle((int)(e.getX() + xTranslate), (int)e.getY(), e.GetRectangle().Width, e.GetRectangle().Height);

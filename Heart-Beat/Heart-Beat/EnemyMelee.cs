@@ -17,6 +17,7 @@ namespace Heart_Beat
     /// </summary>
     public class EnemyMelee : Enemy
     {
+        private Random rand = new Random();
         private const float SPEED = 4.0f;
         public EnemyMelee(Game game)
             : base(game)
@@ -28,6 +29,7 @@ namespace Heart_Beat
         public EnemyMelee(Game game, Vector2 v)
             : base(game)
         {
+            Z = rand.Next(200, 300);
             location = v;
             hitPoints = 100;
             defaultWeapon = 1;
@@ -40,7 +42,8 @@ namespace Heart_Beat
         public override void Initialize()
         {
             int[] frameCountsPerAnim = { 0, 2, 3, 0, 2 };
-            animation.Initialize("Enemies/Thug01_sprites", frameCountsPerAnim, 350);
+            animation.Initialize("Enemies/Thug0" + rand.Next(1,3) + "_sprites", frameCountsPerAnim, 350);
+            //animation.Initialize("Enemies/Thug01_sprites", frameCountsPerAnim, 350);
             animation.AddAnimation("Walking", 2);
             animation.AddAnimation("Punching", 3);
             animation.AddAnimation("Dying", 5);
@@ -55,14 +58,16 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime, Player target)
         {
+            int delta = 8;
+
             if (!isDead)
             {
                 float diffX = location.X - target.getX();
                 float diffZ = Z - target.Z;
-                if (diffX > 0) { location.X -= (SPEED / 2); animation.isMirrored = false; }
-                else if (diffX < 0) { location.X += (SPEED / 2); animation.isMirrored = true; }
-                if (diffZ > 0) { Z -= (SPEED / 2); }
-                else if (diffZ < 0) { Z += (SPEED / 2); }
+                if (diffX > 0) { location.X -= (SPEED / 2) + rand.Next(-delta, delta); animation.isMirrored = false; }
+                else if (diffX < 0) { location.X += (SPEED / 2) + rand.Next(-delta, delta); animation.isMirrored = true; }
+                if (diffZ > 0) { Z -= (SPEED / 2) + rand.Next(-20, 20); }
+                else if (diffZ < 0) { Z += (SPEED / 2) + rand.Next(-delta, delta); }
                 if ((Math.Sqrt(diffZ * diffZ) < 100) && (Math.Sqrt(diffX * diffX) < 100))
                 {
                     if (coolDown == 0)
