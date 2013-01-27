@@ -21,7 +21,7 @@ namespace Heart_Beat
         public EnemyRanged(Game game)
             : base(game)
         {
-            location = new Vector2(700.0f, 0.0f);
+            location = new Vector2(400.0f, 0.0f);
             hitPoints = 100;
         }
 
@@ -48,6 +48,9 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime, Player target)
         {
+            if (hitPoints <= 0)
+                animation.select = "Dying";
+
             float diffX = location.X - target.getX();
             float diffZ = Z - target.Z;
             if (diffX > 0) { location.X += (SPEED / 2); animation.isMirrored = true; }

@@ -269,7 +269,7 @@ namespace Heart_Beat
             {
                 if (e.GetRectangle().Intersects(player.GetRectangle()))
                 {
-                    Console.WriteLine("HIT!");
+                    e.takeDamage(100);
                 }
             }
         }

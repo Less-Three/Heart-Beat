@@ -127,5 +127,10 @@ namespace Heart_Beat
         {
             return location.Y;
         }
+
+        public bool getIsMirroed()
+        {
+            return animation.isMirrored;
+        }
     }
 }
