@@ -107,7 +107,7 @@ namespace Heart_Beat
             List<SceneObject> corpsesToRemove = new List<SceneObject>();
             foreach (SceneObject s in corpses)
             {
-                s.Update(gameTime);
+                //s.Update(gameTime);
                 if (s.GetHitPoints() < 1)
                 {
                     corpsesToRemove.Add(s);
