@@ -13,11 +13,11 @@ using Microsoft.Xna.Framework.Media;
 namespace Heart_Beat
 {
     /// <summary>
-    /// Abstract class to handle player behaviour.
+    /// Class to handle player behaviour.
     /// </summary>
     public class Player : SceneObject
     {
-        private KeyboardState keyState;
+        private KeyboardState keyState, oldKeyState;
         private SoundEffect footstep, punchWhoosh;
         private bool hasItem;
         private const float SPEED = 5.0f;
@@ -53,8 +53,9 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            animation.select = "Idle";
+            animation.select = "Idle";          // Set as default animation
 
+            oldKeyState = keyState;
             keyState = Keyboard.GetState();
 
             if (keyState.IsKeyDown(Keys.Up))
@@ -81,7 +82,7 @@ namespace Heart_Beat
                 animation.isMirrored = false;
             }
 
-            if (keyState.IsKeyDown(Keys.Space))
+            if (keyState.IsKeyDown(Keys.Space) && !oldKeyState.IsKeyDown(Keys.Space))
             {
                 if (location.Y <= 0.0f)
                 {
@@ -97,14 +98,16 @@ namespace Heart_Beat
                 this.currentWeapon = 1;
             }
 
-            UpdateGravity(gameTime);
+            // Ensure player does not leave game window
             location.X = MathHelper.Clamp(location.X, 0.0f + animation.FrameWidth, Game.GraphicsDevice.Viewport.Width);
+
+            UpdateGravity(gameTime);
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
         }
 
         /// <summary>
-        /// This is called when the game should draw itself.
+        /// Draw animation frame(s)
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
@@ -115,6 +118,8 @@ namespace Heart_Beat
 
             base.Draw(gameTime);
         }
+
+
         public override void takeDamage(int damage)
         {
             base.takeDamage(damage);

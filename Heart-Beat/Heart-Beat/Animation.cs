@@ -1,4 +1,4 @@
-/* Source: http://coderplex.blogspot.ca/2010/04/2d-animation-part-5-multiple-animations.html */
+/* Assistance from: http://coderplex.blogspot.ca/2010/04/2d-animation-part-5-multiple-animations.html */
 
 using System;
 using System.Collections.Generic;
@@ -22,34 +22,22 @@ namespace Heart_Beat
         private SpriteBatch spriteBatch;
         private Dictionary<string, Rectangle[]> animations;     // Animations used and their frames
         public String select;                                   // Select animation
-        public int rowWithMaxFrames;
+        public int activeRow;
         private Vector2 location;
         private int[] frameCounts;
         private Texture2D spriteStrip;
         private int timeDisplayFrame;                           // Time to display frame
         private double elapsedTime;
         private int currentFrame;
-        private int frameWidth;
-        private int frameHeight;
         private Rectangle destinationRect;
+        public int FrameWidth { get; set; }
+        public int FrameHeight { get; set; }
         public bool isMirrored;
 
         public Animation(Game game)
             : base(game)
         {
             animations = new Dictionary<string, Rectangle[]>();
-        }
-
-        public int FrameWidth
-        {
-            get { return frameWidth; }
-            set { frameWidth = value; }
-        }
-
-        public int FrameHeight
-        {
-            get { return frameHeight; }
-            set { frameHeight = value; }
         }
 
         /// <summary>
@@ -100,19 +88,19 @@ namespace Heart_Beat
             switch (select)
             {
                 case "Idle":
-                    rowWithMaxFrames = 0;
+                    activeRow = 0;
                     break;
                 case "Walking":
-                    rowWithMaxFrames = 1;
+                    activeRow = 1;
                     break;
                 case "Punching":
-                    rowWithMaxFrames = 2;
+                    activeRow = 2;
                     break;
                 case "Jumping":
-                    rowWithMaxFrames = 3;
+                    activeRow = 3;
                     break;
                 case "Dying":
-                    rowWithMaxFrames = 4;
+                    activeRow = 4;
                     break;
             }
 
@@ -130,7 +118,7 @@ namespace Heart_Beat
                                             (int)location.Y,
                                             FrameWidth,
                                             FrameHeight);
-            if (currentFrame >= frameCounts[rowWithMaxFrames]) currentFrame = 0;
+            if (currentFrame >= frameCounts[activeRow]) currentFrame = 0;
             base.Update(gameTime);
         }
 
@@ -156,11 +144,7 @@ namespace Heart_Beat
 
             for (int i = 0; i < frameCounts.Length; i++ )
             {
-                if (frameCounts[i] > max)
-                {
-                    max = frameCounts[i];
-                    rowWithMaxFrames = i;
-                }
+                if (frameCounts[i] > max) max = frameCounts[i];
             }
             return max;
         }
@@ -179,6 +163,7 @@ namespace Heart_Beat
                                         FrameWidth,
                                         FrameHeight);
             }
+
             animations.Add(name, recs);
         }
     }

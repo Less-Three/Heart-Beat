@@ -48,34 +48,6 @@ namespace Heart_Beat
         }
 
         /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
-        protected void Initialize(Vector2 loc, float z, int hp, Rectangle rect, Animation anim)
-        {
-            location = loc;
-            this.z = z;
-            hitPoints = hp;
-            collisionRectangle = rect;
-            collisionDepth = defaultCollisionWidth;
-            animation = anim;
-
-            base.Initialize();
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            base.LoadContent();
-        }
-
-        /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>

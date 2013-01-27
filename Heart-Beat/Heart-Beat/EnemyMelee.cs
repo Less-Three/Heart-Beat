@@ -34,11 +34,7 @@ namespace Heart_Beat
         {
             int[] frameCountsPerAnim = { 0, 2, 3, 0, 2 };
             animation.Initialize("Enemies/Thug01_sprites", frameCountsPerAnim, 350);
-            animation.AddAnimation("Walking", 2);
-            animation.AddAnimation("Punching", 3);
-            animation.AddAnimation("Dying", 5);
 
-            animation.select = "Walking";
             base.Initialize();
         }
 
