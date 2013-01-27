@@ -109,6 +109,11 @@ namespace Heart_Beat
             foreach (Enemy e in enemies)
             {
                 e.Update(gameTime, player);
+                int weapon = e.getAttack();
+                if (weapon == 1)
+                {
+                    Projectile p = new Projectile(this);
+                }
             }
 
             foreach (SceneObject s in gameObjects){

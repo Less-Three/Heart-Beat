@@ -17,6 +17,7 @@ namespace Heart_Beat
     /// </summary>
     public abstract class SceneObject : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        public enum Attack{none = 0, punch = 1, knife = 2};
         protected SpriteBatch spriteBatch;
         protected Vector2 location;
         private float z;
@@ -29,6 +30,7 @@ namespace Heart_Beat
         protected const float Y_SPEED_MAX = 15.0f;
         private const float MAX_BOUNDARY = 440.0f;
         private const float MIN_BOUNDARY = 200.0f;
+        protected int currentWeapon = 0;
 
         protected SceneObject(Game game)
             : base(game)
@@ -128,9 +130,20 @@ namespace Heart_Beat
             return location.Y;
         }
 
-        public bool getIsMirroed()
+        public bool getIsMirrored()
         {
             return animation.isMirrored;
+        }
+
+        /// <summary>
+        /// returns the weapon being fired and then sets weapon to zero
+        /// </summary>
+        /// <returns></returns>
+        public int getAttack()
+        {
+            int w = currentWeapon;
+            currentWeapon = 0;
+            return currentWeapon;
         }
     }
 }

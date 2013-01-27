@@ -25,6 +25,13 @@ namespace Heart_Beat
         {
             // TODO: Construct any child components here
         }
+        public void setLocation(Player p)
+        {
+            if (p.getIsMirrored())
+            {
+                // TODO code for adding projectile
+            }
+        }
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
