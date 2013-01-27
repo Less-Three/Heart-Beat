@@ -59,12 +59,12 @@ namespace Heart_Beat
 
             if (keyState.IsKeyDown(Keys.Up))
             {
-                z += SPEED;
+                Z += SPEED;
                 animation.select = "Walking";
             }
             else if (keyState.IsKeyDown(Keys.Down))
             {
-                z -= SPEED;
+                Z -= SPEED;
                 animation.select = "Walking";
             }
 
