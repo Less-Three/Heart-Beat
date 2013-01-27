@@ -101,7 +101,7 @@ namespace Heart_Beat
                 Exit();
 
             foreach (SceneObject s in gameObjects){
-                s.Update(gameTime);
+                //s.Update(gameTime);
             }
 
             List<SceneObject> corpsesToRemove = new List<SceneObject>();

@@ -19,7 +19,7 @@ namespace Heart_Beat
     {
         protected SpriteBatch spriteBatch;
         protected Vector2 location;
-        protected float z;
+        private float z;
         protected Animation animation;
         protected int hitPoints;
         protected Rectangle collisionRectangle; // X and Y collision
@@ -34,6 +34,12 @@ namespace Heart_Beat
             : base(game)
         {
             // No child components to construct
+        }
+
+        public float Z
+        {
+            get { return z; }
+            set { z = value; }
         }
 
         /// <summary>
@@ -108,6 +114,16 @@ namespace Heart_Beat
                 ySpeed = 0.0f;
                 location.Y = 0;
             }
+        }
+
+        public float getX()
+        {
+            return location.X;
+        }
+
+        public float getY()
+        {
+            return location.Y;
         }
     }
 }

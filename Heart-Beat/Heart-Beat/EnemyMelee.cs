@@ -32,7 +32,10 @@ namespace Heart_Beat
         public override void Initialize()
         {
             int[] frameCountsPerAnim = { 0, 2, 3, 0, 2 };
-            animation.Initialize("Enemies/Thug01_sprites", frameCountsPerAnim, 350);
+            Random rand = new Random();
+            int thugType = rand.Next(1, 3);
+            if( thugType == 1) animation.Initialize("Enemies/Thug01_sprites", frameCountsPerAnim, 350);
+            else animation.Initialize("Enemies/Thug02_sprites", frameCountsPerAnim, 350);
             animation.AddAnimation("Walking", 2);
             animation.AddAnimation("Punching", 3);
             animation.AddAnimation("Dying", 5);
