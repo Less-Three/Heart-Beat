@@ -101,34 +101,14 @@ namespace Heart_Beat
         }
         protected void CheckShooting()
         {
-            int w = player.getAttack();
-            System.Diagnostics.Debug.WriteLine(w);
-                if (w == 1)
-                {
-                    System.Diagnostics.Debug.WriteLine("w==1");
-                    Projectile p = new Projectile(this);
-                    p.setLocation(player, 0);
-                    gameObjects.Add(p);
-                    enemyObjects.Add(p);
-                    playerObjects.Add(p);
-                }
-                else if (w == 2)
-                {
-                    Projectile p = new Projectile(this);
-                    p.setLocation(player, 4);
-                    gameObjects.Add(p);
-                    gameObjects.Add(p);
-                    playerObjects.Add(p);
-                }
+            
+                
             foreach (Enemy e in enemies)
             {
-                w = e.getAttack();
+                int w = e.getAttack();
                 if (w == 1)
                 {
-                    Projectile p = new Projectile(this);
-                    p.setLocation(e, 0);
-                    gameObjects.Add(p);
-                    enemyObjects.Add(p);
+                    
                 }
                 else if (w == 2)
                 {
@@ -137,9 +117,28 @@ namespace Heart_Beat
                     gameObjects.Add(p);
                     gameObjects.Add(p);
                 }
-                if (e.GetRectangle().Intersects(player.GetRectangle()))
+                Rectangle playerRectangle = player.GetRectangle();
+                if (e.GetRectangle().Intersects(playerRectangle))
                 {
                     //e.takeDamage(100);
+                }
+                w = player.getAttack();
+                if (w == 1)
+                {
+                    Rectangle punchBox;
+                    if (player.getIsMovingRight())
+                    {
+                        punchBox = new Rectangle(playerRectangle.X, playerRectangle.Y, playerRectangle.Width + 100, playerRectangle.Height);
+
+                    }
+                    else
+                    {
+                        punchBox = new Rectangle(playerRectangle.X - 100, playerRectangle.Y, playerRectangle.Width + 100, playerRectangle.Height);
+                    }
+                    if(punchBox.Intersects(e.GetRectangle()) && Math.Abs(player.Z - e.Z) < SceneObject.defaultCollisionWidth){
+                        e.takeDamage(50);
+                        System.Diagnostics.Debug.WriteLine("punched him");
+                    }
                 }
             }
         }

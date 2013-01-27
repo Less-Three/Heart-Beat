@@ -18,7 +18,10 @@ namespace Heart_Beat
     /// </summary>
     public abstract class SceneObject : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        public const float defaultCollisionWidth = 1.5f;
+        public bool isMovingRight;
+        private float xBefore;
+        public bool attemptAnimation;
+        public const float defaultCollisionWidth = 6.5f;
         public enum Attack{none = 0, punch = 1, knife = 2};
         protected SpriteBatch spriteBatch;
         protected Vector2 location;
@@ -37,7 +40,9 @@ namespace Heart_Beat
         protected SceneObject(Game game)
             : base(game)
         {
+            xBefore = location.X;
             animation = new Animation(game);
+            attemptAnimation = false;
             collisionRectangle = new Rectangle((int)location.X, (int)location.Y, 100, 100);
         }
 
@@ -81,12 +86,14 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            float xBefore = location.X;
             collisionRectangle = new Rectangle((int)location.X, (int)location.Y, (int)animation.FrameWidth, (int)animation.FrameHeight);
 
             z = MathHelper.Clamp(z, MIN_BOUNDARY, MAX_BOUNDARY);    // Ensure Z is within player moveable boundaries
             translatedLocation = new Vector2((location.X) - (0.5f * z), 600 - z - location.Y);
 
             base.Update(gameTime);
+            isMovingRight = (location.X > xBefore);
         }
 
         public Rectangle GetRectangle()
@@ -134,9 +141,9 @@ namespace Heart_Beat
             return location.Y;
         }
 
-        public bool getIsMirrored()
+        public bool getIsMovingRight()
         {
-            return animation.isMirrored;
+            return isMovingRight;
         }
 
         /// <summary>

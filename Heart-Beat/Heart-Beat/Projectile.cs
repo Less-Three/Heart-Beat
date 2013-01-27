@@ -30,9 +30,9 @@ namespace Heart_Beat
             this.location.X = s.getX();
             this.location.Y = s.getY();
             this.Z = s.Z;
-            if (s.getIsMirrored())
+            if (s.getIsMovingRight())
             {
-                this.directionOfTravel.X = -speed;
+                this.directionOfTravel.X = +speed;
                 this.location.X -= 10;
             }else{
                 this.directionOfTravel.X = speed;
