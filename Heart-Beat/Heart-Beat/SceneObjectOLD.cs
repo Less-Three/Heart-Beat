@@ -13,11 +13,10 @@ using Microsoft.Xna.Framework.Media;
 namespace Heart_Beat
 {
     /// <summary>
-    /// This is a game component that implements IUpdateable.
+    /// Class to handle behaviour of scene objects.
     /// </summary>
     public abstract class SceneObject : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        SpriteBatch spriteBatch;
         protected Vector2 location;
         protected float z;
         protected Animation animation;
@@ -30,38 +29,32 @@ namespace Heart_Beat
         private const float MAX_BOUNDARY = 440.0f;
         private const float MIN_BOUNDARY = 200.0f;
 
-        protected SceneObject(Game game)
+        public SceneObjectOLD(Game game)
             : base(game)
         {
-            // No child components to construct
+            // TODO: Construct any child components here
+        }
+
+        public SceneObject(Game game, Vector2 location, float z, int hitPoints, Rectangle collisionRectangle, double collisionDepth, Animation animation) : this(game)
+
+        {
+            this.location = location;
+            this.z = z;
+            this.hitPoints = hitPoints;
+            this.collisionRectangle = collisionRectangle;
+            this.collisionDepth = collisionDepth;
+            this.animation = animation;
         }
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        protected void Initialize(Vector2 loc, float z, int hp, Rectangle rect, double depth, Animation anim)
+        public override void Initialize()
         {
-            location = loc;
-            this.z = z;
-            hitPoints = hp;
-            collisionRectangle = rect;
-            collisionDepth = depth;
-            animation = anim;
+            // TODO: Add your initialization code here
 
             base.Initialize();
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            base.LoadContent();
         }
 
         /// <summary>
@@ -70,23 +63,13 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            z = MathHelper.Clamp(z, MIN_BOUNDARY, MAX_BOUNDARY);    // Ensure Z is within player moveable boundaries
-            translatedLocation = new Vector2((location.X) - (0.5f * z), 600 - z - location.Y);
 
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Draw(GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-            animation.Draw(gameTime);
-            spriteBatch.End();
 
-            base.Draw(gameTime);
         }
 
         public Rectangle GetRectangle()

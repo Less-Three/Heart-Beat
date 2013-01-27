@@ -17,8 +17,8 @@ namespace Heart_Beat
     /// </summary>
     public class Player : SceneObject
     {
-        private KeyboardState keyState;
         private Texture2D texture;
+        private KeyboardState keyState;
         private SoundEffect footstep, punchWhoosh;
         private bool hasItem;
 
@@ -34,10 +34,10 @@ namespace Heart_Beat
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        public void Initialize(ContentManager Content, string texturePath)
+        public override void Initialize()
         {
             int[] frameCountsPerAnim = {3, 2, 2, 3, 3};
-            animation.Initialize(Content, "Player/Heartbeat_sprites", frameCountsPerAnim, 350);
+            animation.Initialize("Player/Heartbeat_sprites", frameCountsPerAnim, 350);
             animation.AddAnimation("Idle", 1);
             animation.AddAnimation("Walking", 2);
             animation.AddAnimation("Punching", 3);
@@ -89,18 +89,19 @@ namespace Heart_Beat
                 }
             }
 
+            if (keyState.IsKeyDown(Keys.LeftControl))
+            {
+                animation.select = "Punching";
+            }
+
             UpdateGravity(gameTime);
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// Draw player.
-        /// </summary>
-        /// <param name="spriteBatch">Group of sprites to be drawn with same settings.</param>
-        public override void Draw(SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime)
         {
-            animation.Draw(spriteBatch);
+            animation.Draw(gameTime);
         }
     }
 }

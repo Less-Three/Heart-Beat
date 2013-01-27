@@ -20,6 +20,8 @@ namespace Heart_Beat
         SpriteBatch spriteBatch;
         Background scrollingBackground;
         Player player;  // the player
+        EnemyMelee enemy;
+
         List<SceneObject> gameObjects;  // list of all game objects - updated in game loops
 
         //the following lists are used only to simplify collision detection
@@ -38,6 +40,13 @@ namespace Heart_Beat
             graphics.PreferredBackBufferHeight = 600;
             Content.RootDirectory = "Content";
 
+            Components.Add(new Background(this));
+
+            player = new Player(this);
+            Components.Add(player);
+
+            enemy = new EnemyMelee(this);
+            //Components.Add(enemy);
         }
 
         /// <summary>
@@ -48,8 +57,6 @@ namespace Heart_Beat
         /// </summary>
         protected override void Initialize()
         {
-            scrollingBackground = new Background(this);
-            player = new Player(this);
             gameObjects = new List<SceneObject>();
             enemies = new List<Enemy>();
             enemyObjects = new List<Projectile>();
@@ -70,8 +77,7 @@ namespace Heart_Beat
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            scrollingBackground.Initialize(Content, "Background/city_bg", GraphicsDevice.Viewport.Width);
-            player.Initialize(Content, "Player/Heartbeat_Stand01");
+            base.LoadContent();
         }
 
         /// <summary>
@@ -92,13 +98,12 @@ namespace Heart_Beat
         {
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+                Exit();
 
-            scrollingBackground.Update(gameTime);
-            player.Update(gameTime);
             foreach (SceneObject s in gameObjects){
                 s.Update(gameTime);
             }
+
             List<SceneObject> corpsesToRemove = new List<SceneObject>();
             foreach (SceneObject s in corpses)
             {
@@ -113,6 +118,7 @@ namespace Heart_Beat
                 corpses.Remove(corpse);
             }
             corpsesToRemove.Clear();
+
             base.Update(gameTime);
             
         }
@@ -124,11 +130,6 @@ namespace Heart_Beat
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch.Begin();
-            scrollingBackground.Draw(spriteBatch);
-            player.Draw(spriteBatch);
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

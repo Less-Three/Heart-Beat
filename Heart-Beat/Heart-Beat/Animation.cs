@@ -17,10 +17,12 @@ namespace Heart_Beat
     /// <summary>
     /// Class to handle object animations.
     /// </summary>
-    public class Animation : Microsoft.Xna.Framework.GameComponent
+    public class Animation : Microsoft.Xna.Framework.DrawableGameComponent
     {
+        private SpriteBatch spriteBatch;
         private Dictionary<string, Rectangle[]> animations;     // Animations used and their frames
         public String select;                                   // Select animation
+        public int activeRow;
         private Vector2 location;
         private int[] frameCounts;
         private Texture2D spriteStrip;
@@ -40,12 +42,12 @@ namespace Heart_Beat
         /// Allows the game component to perform any initialization it needs to before starting
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
-        public void Initialize(ContentManager Content, string imagePath, int[] fCountsPerAnim, int time)
+        public void Initialize(string imagePath, int[] fCountsPerAnim, int time)
         {
             // Get number of different animations
             int size = fCountsPerAnim.Length;
 
-            spriteStrip = Content.Load<Texture2D>(imagePath);
+            spriteStrip = Game.Content.Load<Texture2D>(imagePath);
             frameCounts = new int[size];
             currentFrame = 0;
             timeDisplayFrame = time;
@@ -62,18 +64,50 @@ namespace Heart_Beat
         }
 
         /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            base.LoadContent();
+        }
+
+        /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public void Update(GameTime gameTime, Vector2 loc)
         {
+            switch (select)
+            {
+                case "Idle":
+                    activeRow = 0;
+                    break;
+                case "Walking":
+                    activeRow = 1;
+                    break;
+                case "Punching":
+                    activeRow = 2;
+                    break;
+                case "Jumping":
+                    activeRow = 3;
+                    break;
+                case "Dying":
+                    activeRow = 4;
+                    break;
+            }
+
             location = loc;
             elapsedTime += gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (elapsedTime > timeDisplayFrame)
             {
                    currentFrame++;
-                   if (currentFrame == frameCounts[0] - 1) currentFrame = 0;
+
+                   if (currentFrame >= frameCounts[0] - 1) currentFrame = 0;
                    elapsedTime = 0.0;
             }
 
@@ -89,22 +123,28 @@ namespace Heart_Beat
         /// Draw player.
         /// </summary>
         /// <param name="spriteBatch">Group of sprites to be drawn with same settings.</param>
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin();
             spriteBatch.Draw(spriteStrip, destinationRect, animations[select][currentFrame], Color.White);
+            spriteBatch.End();
         }
 
-        /*****************************************
-         * Return the maximum number of frames   *
-         * in of all the types in a sprite sheet *
-         * ***************************************/
+        /*******************************************
+         * Return the maximum number of frames and *
+         * the row that has it in a sprite sheet   *
+         * *****************************************/
         private int GetMaxFrames()
         {
             int max = 0;
 
             for (int i = 0; i < frameCounts.Length; i++ )
             {
-                if (frameCounts[i] > max) max = frameCounts[i];
+                if (frameCounts[i] > max)
+                {
+                    max = frameCounts[i];
+                    activeRow = i;
+                }
             }
             return max;
         }
