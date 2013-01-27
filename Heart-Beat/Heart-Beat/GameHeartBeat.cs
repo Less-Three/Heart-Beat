@@ -19,9 +19,9 @@ namespace Heart_Beat
         private const int MAX_ENEMIES = 5;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Player player;  // the player
+        Player player;  // the players
         EnemyMelee enemy;
-
+        EnemyRanged enemyTwo;
         List<SceneObject> gameObjects;  // list of all game objects - updated in game loops
 
         //the following lists are used only to simplify collision detection
@@ -46,7 +46,8 @@ namespace Heart_Beat
             Components.Add(player);
 
             //for (int i = 0; i < 5; i++ )
-                //enemy = new EnemyMelee(this);
+            enemy = new EnemyMelee(this);
+            enemyTwo = new EnemyRanged(this);
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace Heart_Beat
             if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
-            foreach (EnemyMelee e in enemies)
+            foreach (Enemy e in enemies)
             {
                 e.Update(gameTime, player);
             }
@@ -140,7 +141,7 @@ namespace Heart_Beat
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             base.Draw(gameTime);
-            foreach (EnemyMelee e in enemies)
+            foreach (Enemy e in enemies)
                 e.Draw(gameTime);
         }
 

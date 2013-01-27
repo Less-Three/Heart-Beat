@@ -41,7 +41,7 @@ namespace Heart_Beat
         /// Allows the game component to update itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime, Player player)
         {
             // TODO: Add your update code here
 

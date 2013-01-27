@@ -75,6 +75,7 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyRanged.cs" />
     <Compile Include="GameHeartBeat.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="EnemyMelee.cs" />
