@@ -48,7 +48,7 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime, Player target)
         {
-            if (!IsDead)
+            if (!isDead)
             {
                 float diffX = location.X - target.getX();
                 float diffZ = Z - target.Z;
@@ -56,6 +56,13 @@ namespace Heart_Beat
                 else if (diffX < 0) { location.X += (SPEED / 2); animation.isMirrored = true; }
                 if (diffZ > 0) { Z -= (SPEED / 2); }
                 else if (diffZ < 0) { Z += (SPEED / 2); }
+                if ((Math.Sqrt(diffZ * diffZ) < 100) && (Math.Sqrt(diffX * diffX) < 100))
+                {
+                    animation.select = "Punching";
+                    currentWeapon = 1;
+                }
+                else
+                    animation.select = "Walking";
 
                 coolDown--;
                 if (currentWeapon == 0 && coolDown < 0)
@@ -65,7 +72,7 @@ namespace Heart_Beat
                 }
             }
 
-            if (IsDead) location.X -= DEAD_SPEED;
+            if (isDead) location.X -= DEAD_SPEED;
 
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
