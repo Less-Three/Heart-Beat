@@ -50,54 +50,57 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime, Player target)
         {
-            if (hitPoints <= 0)
-                animation.select = "Dying";
-
-            float diffX = location.X - target.getX();
-            float diffZ = Z - target.Z;
-
-            if (diffX > 0) 
+            if (!isDead)
             {
-                if ((location.X >= 800.0f)||isDesperate)
+                if (hitPoints <= 0)
+                    animation.select = "Dying";
+
+                float diffX = location.X - target.getX();
+                float diffZ = Z - target.Z;
+
+                if (diffX > 0)
                 {
-                    location.X -= (SPEED / 2);
-                    animation.isMirrored = false;
-                    isDesperate = true;
+                    if ((location.X >= 800.0f) || isDesperate)
+                    {
+                        location.X -= (SPEED / 2);
+                        animation.isMirrored = false;
+                        isDesperate = true;
+                    }
+                    else
+                    {
+                        location.X += (SPEED / 2);
+                        animation.isMirrored = true;
+                    }
                 }
-                else
+                else if (diffX < 0)
                 {
-                    location.X += (SPEED / 2);
-                    animation.isMirrored = true;
+                    if ((location.X <= 200.0f) || isDesperate)
+                    {
+                        location.X += (SPEED / 2);
+                        animation.isMirrored = true;
+                        isDesperate = true;
+                    }
+                    else
+                    {
+                        location.X -= (SPEED / 2);
+                        animation.isMirrored = false;
+                    }
+                }
+                if (diffZ > 0)
+                    Z += (SPEED / 2);
+                else if (diffZ < 0)
+                    Z -= (SPEED / 2);
+
+                coolDown--;
+                if (currentWeapon == 0 && coolDown < 0)
+                {
+                    currentWeapon = defaultWeapon;
+                    coolDown = 10;
                 }
             }
-            else if (diffX < 0) 
-            {
-                if ((location.X <= 200.0f)||isDesperate)
-                {
-                    location.X += (SPEED / 2);
-                    animation.isMirrored = true;
-                    isDesperate = true;
-                }
-                else
-                {
-                    location.X -= (SPEED / 2);
-                    animation.isMirrored = false;
-                }
-            }
-            if (diffZ > 0) 
-                Z += (SPEED / 2);
-            else if (diffZ < 0) 
-                Z -= (SPEED / 2);
-            
+
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
-            coolDown --;
-            if (currentWeapon == 0 && coolDown < 0)
-            {
-                currentWeapon = defaultWeapon;
-                coolDown = 10;
-            }
-
         }
 
         /// <summary>

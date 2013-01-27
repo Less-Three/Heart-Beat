@@ -33,6 +33,7 @@ namespace Heart_Beat
         private int frameHeight;
         private Rectangle destinationRect;
         public bool isMirrored;
+        private bool playedOnce;
 
         public Animation(Game game)
             : base(game)
@@ -130,7 +131,11 @@ namespace Heart_Beat
                                             (int)location.Y,
                                             FrameWidth,
                                             FrameHeight);
-            if (currentFrame >= frameCounts[rowWithMaxFrames]) currentFrame = 0;
+            if (currentFrame >= frameCounts[rowWithMaxFrames])
+            {
+                if (select == "Dying") currentFrame = 1; // Ensure dying animation does not loop
+                else if (select != "Dying") currentFrame = 0;
+            }
             base.Update(gameTime);
         }
 

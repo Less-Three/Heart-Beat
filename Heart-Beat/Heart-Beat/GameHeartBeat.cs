@@ -63,7 +63,7 @@ namespace Heart_Beat
             playerObjects = new List<Projectile>();
             corpses = new List<SceneObject>();
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 1; i++)
             {
                 enemy = new EnemyMelee(this);
                 enemy.Initialize();

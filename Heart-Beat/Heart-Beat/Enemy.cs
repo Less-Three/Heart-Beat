@@ -22,6 +22,8 @@ namespace Heart_Beat
         protected int type;
         protected int defaultWeapon;
         protected int coolDown = 5;
+        protected bool isDead;
+
         public Enemy(Game game)
             : base(game)
         {
@@ -42,6 +44,7 @@ namespace Heart_Beat
             if (hitPoints < 1)
             {
                 animation.select = "Dying";
+                isDead = true;
             }
         
         }

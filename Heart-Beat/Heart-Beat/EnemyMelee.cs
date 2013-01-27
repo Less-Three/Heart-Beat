@@ -48,18 +48,21 @@ namespace Heart_Beat
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime, Player target)
         {
-            float diffX = location.X - target.getX();
-            float diffZ = Z - target.Z;
-            if (diffX > 0) { location.X -= (SPEED / 2); animation.isMirrored = false; }
-            else if (diffX < 0) { location.X += (SPEED / 2); animation.isMirrored = true; }
-            if (diffZ > 0) { Z -= (SPEED / 2); }
-            else if (diffZ < 0) { Z += (SPEED / 2); }
-
-            coolDown--;
-            if (currentWeapon == 0 && coolDown < 0)
+            if (!isDead)
             {
-                currentWeapon = defaultWeapon;
-                coolDown = 10;
+                float diffX = location.X - target.getX();
+                float diffZ = Z - target.Z;
+                if (diffX > 0) { location.X -= (SPEED / 2); animation.isMirrored = false; }
+                else if (diffX < 0) { location.X += (SPEED / 2); animation.isMirrored = true; }
+                if (diffZ > 0) { Z -= (SPEED / 2); }
+                else if (diffZ < 0) { Z += (SPEED / 2); }
+
+                coolDown--;
+                if (currentWeapon == 0 && coolDown < 0)
+                {
+                    currentWeapon = defaultWeapon;
+                    coolDown = 10;
+                }
             }
             animation.Update(gameTime, translatedLocation);
             base.Update(gameTime);
